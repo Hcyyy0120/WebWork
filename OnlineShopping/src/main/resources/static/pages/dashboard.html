@@ -405,13 +405,26 @@
                 this.getClientInfo();
             },
             methods: {
+                clearCookie() {
+                    var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
+                    if (keys) {
+                        for (var i = keys.length; i--;) {
+                            document.cookie = keys[i] + '=0;path=/;expires=' + new Date(0).toUTCString();//清除当前域名下的,例如：m.kevis.com
+                            document.cookie = keys[i] + '=0;path=/;domain=' + document.domain + ';expires=' + new Date(0).toUTCString();//清除当前域名下的，例如 .m.kevis.com
+                            document.cookie = keys[i] + '=0;path=/;domain=kevis.com;expires=' + new Date(0).toUTCString();//清除一级域名下的或指定的，例如 .kevis.com
+                        }
+                    }
+                    console.log('已清除');
+                },
                 clientLoginOut(command) {
-                    if(command == 'a') {
+                    var _this = this;
+                    if (command == 'a') {
                         axios({
                             method: "get",
                             url: "http://localhost:8080/user/userLoginOut"
                         }).then(function (res) {
                             alert(res.data.message);
+                            _this.clearCookie();//删除所有cookie取消自动登录
                             window.location.reload();
                         })
                     } else {
@@ -424,16 +437,13 @@
                         })
                     }
                 },
-                /*             handleClick(row) {
-                                 console.log(row);
-                             },*/
                 getClientInfo() {
                     var _this = this;
                     axios({
                         method: "get",
                         url: "http://localhost:8080/user/getUserInfo"
                     }).then(function (res) {
-                        if(res.data.userInfo != "not_exists") {
+                        if (res.data.userInfo != "not_exists") {
                             _this.client.clientName = "用户：" + res.data.userInfo;
                         } else {
                             _this.getSellerInfo();

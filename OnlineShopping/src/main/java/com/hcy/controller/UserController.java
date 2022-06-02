@@ -97,7 +97,7 @@ public class UserController {
     public Map<String,Object> UserLoginOut(HttpSession session) {
         HashMap<String, Object> map = new HashMap<>();
         session.invalidate();
-        map.put("message","点击返回登录页");
+        map.put("message","点击返回登录页(注：这将会清除浏览器中的所有cookie)");
         return map;
     }
 }
