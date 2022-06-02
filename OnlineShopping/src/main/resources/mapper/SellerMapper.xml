@@ -15,4 +15,29 @@
         sid,seller_name,password,
         is_deleted
     </sql>
+    
+    <select id="selectBySellerName" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_seller
+        where
+        seller_name = #{seller_name,jdbcType=VARCHAR}
+    </select>
+    
+    <insert id="insertSelective">
+        insert into t_seller
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sid != null">sid,</if>
+            <if test="sellerName != null">seller_name,</if>
+            <if test="password != null">password,</if>
+            <if test="isDelete != null">is_delete,</if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sid != null">#{sid,jdbcType=INTEGER},</if>
+            <if test="sellerName != null">#{seller_name,jdbcType=VARCHAR},</if>
+            <if test="password != null">#{password,jdbcType=CHAR},</if>
+            <if test="isDelete != null">#{isDelete,jdbcType=INTEGER},</if>
+        </trim>
+    </insert>
 </mapper>

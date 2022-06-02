@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="">
         <meta name="author" content="">
-        <title>Signin Template for Bootstrap</title>
+        <title>登录页</title>
         <link href="../css/bootstrap.min.css" rel="stylesheet">
         <link href="../css/signin.css" rel="stylesheet">
         <link rel="stylesheet" href="../plugins/elementui/index.css">
@@ -29,34 +29,75 @@
                                @click="showUserReg = true">用户注册
                     </el-button>
                 </el-row>
-                <el-dialog title="用户注册" :visible.sync="showUserReg">
-                    <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px"
-                             class="demo-ruleForm">
-                        <el-form-item label="用户名" prop="username">
-                            <el-input type="text" v-model="ruleForm.username" autocomplete="off"></el-input>
+                
+                <!--商家入驻表单-->
+                <el-dialog title="商家入驻" :visible.sync="showSellerReg">
+                    <el-form :model="ruleFormBySeller" status-icon :rules="rules" ref="ruleFormBySeller"
+                             label-width="100px"
+                             class="demo-ruleFormBySeller">
+                        <el-form-item label="商家名" prop="sellerName">
+                            <el-input type="text" v-model="ruleFormBySeller.sellerName" autocomplete="off"></el-input>
                         </el-form-item>
                         <el-form-item label="密码" prop="pass">
-                            <el-input type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
+                            <el-input type="password" v-model="ruleFormBySeller.pass" autocomplete="off"></el-input>
                         </el-form-item>
                         <el-form-item label="确认密码" prop="checkPass">
-                            <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
-                        </el-form-item>
-                        <el-form-item label="电话" prop="phone">
-                            <el-input type="text" v-model.number="ruleForm.phone"></el-input>
-                        </el-form-item>
-                        <el-form-item label="邮箱" prop="email">
-                            <el-input type="text" v-model="ruleForm.email" autocomplete="off"></el-input>
+                            <el-input type="password" v-model="ruleFormBySeller.checkPass"
+                                      autocomplete="off"></el-input>
                         </el-form-item>
                         <el-form-item>
-                            <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
-                            <el-button @click="resetForm('ruleForm')">重置</el-button>
+                            <el-button type="primary" @click="submitForm('ruleFormBySeller')">提交</el-button>
+                            <el-button @click="resetForm('ruleFormBySeller')">重置</el-button>
+                            <el-button type="text" @click="dialogFormVisible = true">点我登录</el-button>
                         </el-form-item>
                     </el-form>
                 </el-dialog>
+                <!--商家登录表单-->
+                <el-dialog title="商家登录" :visible.sync="dialogFormVisible">
+                    <el-form :model="sellerFormData">
+                        <el-form-item label="商家名称" :label-width="formLabelWidth">
+                            <el-input v-model="sellerFormData.sellerName" autocomplete="off"></el-input>
+                        </el-form-item>
+                        <el-form-item label="密码" :label-width="formLabelWidth">
+                            <el-input v-model="sellerFormData.password" autocomplete="off"></el-input>
+                        </el-form-item>
+                    </el-form>
+                    <div slot="footer" class="dialog-footer">
+                        <el-button @click="dialogFormVisible = false">取 消</el-button>
+                        <el-button type="primary" @click="sellerLogin()">确 定</el-button>
+                    </div>
+                </el-dialog>
+                
+                <!--用户注册表单-->
+                <el-dialog title="用户注册" :visible.sync="showUserReg">
+                    <el-form :model="ruleFormByUser" status-icon :rules="rules" ref="ruleFormByUser" label-width="100px"
+                             class="demo-ruleFormByUser">
+                        <el-form-item label="用户名" prop="username">
+                            <el-input type="text" v-model="ruleFormByUser.username" autocomplete="off"></el-input>
+                        </el-form-item>
+                        <el-form-item label="密码" prop="pass">
+                            <el-input type="password" v-model="ruleFormByUser.pass" autocomplete="off"></el-input>
+                        </el-form-item>
+                        <el-form-item label="确认密码" prop="checkPass">
+                            <el-input type="password" v-model="ruleFormByUser.checkPass" autocomplete="off"></el-input>
+                        </el-form-item>
+                        <el-form-item label="电话" prop="phone">
+                            <el-input type="text" v-model.number="ruleFormByUser.phone"></el-input>
+                        </el-form-item>
+                        <el-form-item label="邮箱" prop="email">
+                            <el-input type="text" v-model="ruleFormByUser.email" autocomplete="off"></el-input>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="primary" @click="submitForm('ruleFormByUser')">提交</el-button>
+                            <el-button @click="resetForm('ruleFormByUser')">重置</el-button>
+                        </el-form-item>
+                    </el-form>
+                </el-dialog>
+                
+                
                 <br/>
                 <label class="sr-only">Username</label>
                 
-                <p th:text="${#request.getAttribute('loginMsg')}"></p>
                 <span v-text="loginMsg" style="color: red"></span>
                 <input type="text" class="form-control" v-model="user.username" placeholder="用户名">
                 <label class="sr-only">Password</label>
@@ -97,8 +138,8 @@
                     if (value === '') {
                         callback(new Error('请输入密码'));
                     } else {
-                        if (this.ruleForm.checkPass !== '') {
-                            this.$refs.ruleForm.validateField('checkPass');
+                        if (this.ruleFormByUser.checkPass !== '') {
+                            this.$refs.ruleFormByUser.validateField('checkPass');
                         }
                         callback();
                     }
@@ -106,20 +147,43 @@
                 var validatePass2 = (rule, value, callback) => {
                     if (value === '') {
                         callback(new Error('请再次输入密码'));
-                    } else if (value !== this.ruleForm.pass) {
+                    } else if (value !== this.ruleFormByUser.pass) {
+                        callback(new Error('两次输入密码不一致!'));
+                    } else {
+                        callback();
+                    }
+                };
+                var validatePass3 = (rule, value, callback) => {
+                    if (value === '') {
+                        callback(new Error('请输入密码'));
+                    } else {
+                        if (this.ruleFormBySeller.checkPass !== '') {
+                            this.$refs.ruleFormBySeller.validateField('checkPass');
+                        }
+                        callback();
+                    }
+                };
+                var validatePass4 = (rule, value, callback) => {
+                    if (value === '') {
+                        callback(new Error('请再次输入密码'));
+                    } else if (value !== this.ruleFormBySeller.pass) {
                         callback(new Error('两次输入密码不一致!'));
                     } else {
                         callback();
                     }
                 };
                 return {
-                    ruleForm: {
+                    ruleFormByUser: {
                         username: '',
                         pass: '',
                         checkPass: '',
                         phone: '',
                         email: ''
-                        
+                    },
+                    ruleFormBySeller: {
+                        sellerName: '',
+                        pass: '',
+                        checkPass: '',
                     },
                     rules: {
                         pass: [
@@ -135,14 +199,60 @@
                         phone: "",
                         email: ""
                     },
+                    seller: {
+                        sellerName: "",
+                        password: ""
+                    },
+                    sellerFormData: {
+                        sellerName: '',
+                        password: '',
+                    },
                     loginMsg: "",
                     rememberMeStatus: 0,
                     showUserReg: false,
-                    showSellerReg: false
+                    showSellerReg: false,
+                    dialogFormVisible: false
                 };
             },
             
             methods: {
+                sellerLogin() {
+                    //dialogFormVisible = false;
+                    let _this = this;
+                    this.seller.sellerName = this.sellerFormData.sellerName;
+                    this.seller.password = this.sellerFormData.password;
+                    if (this.seller.sellerName.length == 0) {
+                        //_this.loginMsg = "商户名不能为空！";
+                        alert("商户名不能为空！");
+                    } else if (this.seller.password.length == 0) {
+                        //_this.loginMsg = "密码不能为空！";
+                        alert("密码不能为空！");
+                    } else {
+                        axios.post("http://localhost:8080/seller/login", _this.seller).then(res => {
+                            //_this.loginMsg = "";
+                            //如果登录成功!
+                            if (res.data.status) {
+                                location.href = "http://localhost:8080/pages/dashboard.html";
+                            } else {
+                                alert(res.data.message);
+                            }
+                        })
+                    }
+                },
+                sellerReg() {
+                    let _this = this;
+                    this.seller.sellerName = this.ruleFormBySeller.sellerName;
+                    this.seller.password = this.ruleFormBySeller.pass;
+                    axios({
+                        method: "post",
+                        url: "http://localhost:8080/seller/reg",
+                        data: _this.seller
+                    }).then(function (res) {
+                        alert(res.data.message);
+                        _this.showSellerReg = false;
+                        //location.href = "http://localhost:8080/pages/dashboard.html";
+                    })
+                },
                 userLogin() {
                     let _this = this;
                     username = this.user.username;
@@ -162,14 +272,13 @@
                             }
                         })
                     }
-                    
                 },
                 userReg() {
                     let _this = this;
-                    this.user.username = this.ruleForm.username;
-                    this.user.password = this.ruleForm.pass;
-                    this.user.phone = this.ruleForm.phone;
-                    this.user.email = this.ruleForm.email;
+                    this.user.username = this.ruleFormByUser.username;
+                    this.user.password = this.ruleFormByUser.pass;
+                    this.user.phone = this.ruleFormByUser.phone;
+                    this.user.email = this.ruleFormByUser.email;
                     axios({
                         method: "post",
                         url: "http://localhost:8080/user/reg",

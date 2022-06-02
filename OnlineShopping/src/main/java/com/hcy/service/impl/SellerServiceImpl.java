@@ -2,9 +2,16 @@ package com.hcy.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hcy.pojo.Seller;
+import com.hcy.pojo.User;
 import com.hcy.service.SellerService;
 import com.hcy.mapper.SellerMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.util.Map;
 
 /**
 * @author 16691
@@ -13,7 +20,19 @@ import org.springframework.stereotype.Service;
 */
 @Service
 public class SellerServiceImpl extends ServiceImpl<SellerMapper, Seller> implements SellerService{
-
+    
+    @Autowired
+    private SellerMapper sellerMapper;
+    
+    @Override
+    public Seller selectBySellerName(String sellerName) {
+        return sellerMapper.selectBySellerName(sellerName);
+    }
+    
+    @Override
+    public int insertSelective(Seller seller) {
+        return sellerMapper.insertSelective(seller);
+    }
 }
 
 

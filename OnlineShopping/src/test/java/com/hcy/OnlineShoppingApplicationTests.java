@@ -3,7 +3,9 @@ package com.hcy;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.hcy.mapper.ProductMapper;
+import com.hcy.mapper.SellerMapper;
 import com.hcy.mapper.UserMapper;
+import com.hcy.pojo.Seller;
 import com.hcy.pojo.User;
 import com.hcy.pojo.vo.ProductVo;
 import org.junit.jupiter.api.Test;
@@ -20,23 +22,17 @@ class OnlineShoppingApplicationTests {
     @Autowired
     ProductMapper productMapper;
     
+    @Autowired
+    SellerMapper sellerMapper;
+    
     @Test
     void contextLoads() {
     }
     
     @Test
     public void testInsert() {
-        /*List<ProductVo> productVos = productMapper.getAllProductVo();
-        productVos.forEach(System.out::println);*/
+        Seller admin = sellerMapper.selectBySellerName("admin");
+        System.out.println(admin);
     
-/*        QueryWrapper<ProductVo> queryWrapper = new QueryWrapper<>();
-        queryWrapper.select("item_type","title","sell_point","price","num","created_user");
-        queryWrapper.like("title","书包")
-                .between("price",10,100);
-        List<ProductVo> productVos = productMapper.selectList(queryWrapper);
-        productVos.forEach(System.out::println);*/
-        List<ProductVo> productVos = productMapper.selectAllByCondition(null,null,0L,100L);
-        productVos.forEach(System.out::println);
-        
     }
 }
