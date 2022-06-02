@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hcy.mapper.SellerMapper">
+
+    <resultMap id="BaseResultMap" type="com.hcy.pojo.Seller">
+            <id property="sid" column="sid" jdbcType="INTEGER"/>
+            <result property="sellerName" column="seller_name" jdbcType="VARCHAR"/>
+            <result property="password" column="password" jdbcType="VARCHAR"/>
+            <result property="isDeleted" column="is_deleted" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        sid,seller_name,password,
+        is_deleted
+    </sql>
+</mapper>

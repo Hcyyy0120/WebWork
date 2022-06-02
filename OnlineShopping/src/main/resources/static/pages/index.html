@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>Signin Template for Bootstrap</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/signin.css" rel="stylesheet">
+        <link rel="stylesheet" href="../plugins/elementui/index.css">
+        <link rel="stylesheet" href="../plugins/font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" href="../css/style.css">
+        <script src="../js/vue.js"></script>
+        <script src="../plugins/elementui/index.js"></script>
+        <script type="text/javascript" src="../js/jquery.min.js"></script>
+        <script src="../js/axios-0.18.0.js"></script>
+    </head>
+    
+    <body class="text-center">
+        <div id="app">
+            <form class="form-signin" action="dashboard.html">
+                <h1 class="h3 mb-3 font-weight-normal">请登录</h1>
+                <el-row>
+                    <el-button size="mini" type="primary"
+                               @click="showSellerReg = true">商家入驻
+                    </el-button>
+                    <el-button size="mini" type="success"
+                               @click="showUserReg = true">用户注册
+                    </el-button>
+                </el-row>
+                <el-dialog title="用户注册" :visible.sync="showUserReg">
+                    <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px"
+                             class="demo-ruleForm">
+                        <el-form-item label="用户名" prop="username">
+                            <el-input type="text" v-model="ruleForm.username" autocomplete="off"></el-input>
+                        </el-form-item>
+                        <el-form-item label="密码" prop="pass">
+                            <el-input type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
+                        </el-form-item>
+                        <el-form-item label="确认密码" prop="checkPass">
+                            <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
+                        </el-form-item>
+                        <el-form-item label="电话" prop="phone">
+                            <el-input type="text" v-model.number="ruleForm.phone"></el-input>
+                        </el-form-item>
+                        <el-form-item label="邮箱" prop="email">
+                            <el-input type="text" v-model="ruleForm.email" autocomplete="off"></el-input>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
+                            <el-button @click="resetForm('ruleForm')">重置</el-button>
+                        </el-form-item>
+                    </el-form>
+                </el-dialog>
+                <br/>
+                <label class="sr-only">Username</label>
+                
+                <p th:text="${#request.getAttribute('loginMsg')}"></p>
+                <span v-text="loginMsg" style="color: red"></span>
+                <input type="text" class="form-control" v-model="user.username" placeholder="用户名">
+                <label class="sr-only">Password</label>
+                <input type="password" class="form-control" v-model="user.password" placeholder="密码">
+                <div class="checkbox mb-3">
+                    <label>
+                        <input type="checkbox" value="OK" id="autoLogin" @click="rememberMe"> 记住我
+                    </label>
+                </div>
+                <button class="btn btn-lg btn-primary btn-block" type="button"
+                        id="loginsubmit" @click="userLogin()">进入
+                </button>
+                <p class="mt-5 mb-3 text-muted">© 2022</p>
+                <a class="btn btn-sm">中文</a>
+                <a class="btn btn-sm">English</a>
+            </form>
+        </div>
+    
+    
+    </body>
+    
+    <script>
+        let app = new Vue({
+            el: "#app",
+            mounted() {
+                axios({
+                    method: "get",
+                    url: "http://localhost:8080/user/check"
+                }).then(function (res) {
+                    console.log(res)
+                    if (res.data.status) {
+                        location.href = "http://localhost:8080/pages/dashboard.html";
+                    }
+                })
+            },
+            data() {
+                var validatePass = (rule, value, callback) => {
+                    if (value === '') {
+                        callback(new Error('请输入密码'));
+                    } else {
+                        if (this.ruleForm.checkPass !== '') {
+                            this.$refs.ruleForm.validateField('checkPass');
+                        }
+                        callback();
+                    }
+                };
+                var validatePass2 = (rule, value, callback) => {
+                    if (value === '') {
+                        callback(new Error('请再次输入密码'));
+                    } else if (value !== this.ruleForm.pass) {
+                        callback(new Error('两次输入密码不一致!'));
+                    } else {
+                        callback();
+                    }
+                };
+                return {
+                    ruleForm: {
+                        username: '',
+                        pass: '',
+                        checkPass: '',
+                        phone: '',
+                        email: ''
+                        
+                    },
+                    rules: {
+                        pass: [
+                            {validator: validatePass, trigger: 'blur'}
+                        ],
+                        checkPass: [
+                            {validator: validatePass2, trigger: 'blur'}
+                        ]
+                    },
+                    user: {
+                        username: "",
+                        password: "",
+                        phone: "",
+                        email: ""
+                    },
+                    loginMsg: "",
+                    rememberMeStatus: 0,
+                    showUserReg: false,
+                    showSellerReg: false
+                };
+            },
+            
+            methods: {
+                userLogin() {
+                    let _this = this;
+                    username = this.user.username;
+                    password = this.user.password;
+                    if (username.length == 0) {
+                        _this.loginMsg = "用户名不能为空！";
+                    } else if (password.length == 0) {
+                        _this.loginMsg = "密码不能为空！";
+                    } else {
+                        axios.post("http://localhost:8080/user/login" + "/" + _this.rememberMeStatus, _this.user).then(res => {
+                            _this.loginMsg = "";
+                            //如果登录成功!
+                            if (res.data.status) {
+                                location.href = "http://localhost:8080/pages/dashboard.html";
+                            } else {
+                                alert(res.data.message);
+                            }
+                        })
+                    }
+                    
+                },
+                userReg() {
+                    let _this = this;
+                    this.user.username = this.ruleForm.username;
+                    this.user.password = this.ruleForm.pass;
+                    this.user.phone = this.ruleForm.phone;
+                    this.user.email = this.ruleForm.email;
+                    axios({
+                        method: "post",
+                        url: "http://localhost:8080/user/reg",
+                        data: _this.user
+                    }).then(function (res) {
+                        alert(res.data.message);
+                        _this.showUserReg = false;
+                        //location.href = "http://localhost:8080/pages/dashboard.html";
+                        
+                    })
+                },
+                rememberMe() {
+                    if (document.getElementById("autoLogin")) {
+                        this.rememberMeStatus = 1;
+                    } else {
+                        this.rememberMeStatus = 0;
+                    }
+                },
+                submitForm(formName) {
+                    this.$refs[formName].validate((valid) => {
+                        if (valid) {
+                            this.userReg();
+                        } else {
+                            alert('注册失败');
+                            return false;
+                        }
+                    });
+                },
+                resetForm(formName) {
+                    this.$refs[formName].resetFields();
+                }
+                
+            }
+        })
+    </script>
+
+</html>

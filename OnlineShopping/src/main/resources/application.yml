@@ -1,0 +1,25 @@
+spring:
+  jackson:
+    generator:
+      write_numbers_as_strings: true
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/onlineshop?serverTimezone=UTC
+      username: root
+      password: hcy
+
+mybatis-plus:
+  configuration:
+    # 日志
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+  # mp的全局配置
+  global-config:
+    db-config:
+      #设置实体类对应的表的统一前缀
+      table-prefix: t_
+      # 设置主键生成策略
+      id-type: auto
+  # 设置类型别名<select id="selectPageVo" resultType="User">
+  type-aliases-package: com.hcy.pojo
