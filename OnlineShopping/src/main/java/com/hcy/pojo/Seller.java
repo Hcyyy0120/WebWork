@@ -3,13 +3,18 @@ package com.hcy.pojo;
 import com.baomidou.mybatisplus.annotation.*;
 
 import java.io.Serializable;
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 
  * @TableName t_seller
  */
 @TableName(value ="t_seller")
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class Seller implements Serializable {
     /**
@@ -32,7 +37,7 @@ public class Seller implements Serializable {
      * 是否删除：0-未删除，1-已删除
      */
     @TableLogic
-    private Integer isDeleted;
+    private Integer isDelete;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
@@ -52,7 +57,7 @@ public class Seller implements Serializable {
         return (this.getSid() == null ? other.getSid() == null : this.getSid().equals(other.getSid()))
             && (this.getSellerName() == null ? other.getSellerName() == null : this.getSellerName().equals(other.getSellerName()))
             && (this.getPassword() == null ? other.getPassword() == null : this.getPassword().equals(other.getPassword()))
-            && (this.getIsDeleted() == null ? other.getIsDeleted() == null : this.getIsDeleted().equals(other.getIsDeleted()));
+            && (this.getIsDelete() == null ? other.getIsDelete() == null : this.getIsDelete().equals(other.getIsDelete()));
     }
 
     @Override
@@ -62,7 +67,7 @@ public class Seller implements Serializable {
         result = prime * result + ((getSid() == null) ? 0 : getSid().hashCode());
         result = prime * result + ((getSellerName() == null) ? 0 : getSellerName().hashCode());
         result = prime * result + ((getPassword() == null) ? 0 : getPassword().hashCode());
-        result = prime * result + ((getIsDeleted() == null) ? 0 : getIsDeleted().hashCode());
+        result = prime * result + ((getIsDelete() == null) ? 0 : getIsDelete().hashCode());
         return result;
     }
 
@@ -75,7 +80,7 @@ public class Seller implements Serializable {
         sb.append(", sid=").append(sid);
         sb.append(", sellerName=").append(sellerName);
         sb.append(", password=").append(password);
-        sb.append(", isDeleted=").append(isDeleted);
+        sb.append(", isDelete=").append(isDelete);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

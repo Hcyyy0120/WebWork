@@ -8,12 +8,12 @@
             <id property="sid" column="sid" jdbcType="INTEGER"/>
             <result property="sellerName" column="seller_name" jdbcType="VARCHAR"/>
             <result property="password" column="password" jdbcType="VARCHAR"/>
-            <result property="isDeleted" column="is_deleted" jdbcType="INTEGER"/>
+            <result property="isDelete" column="is_delete" jdbcType="INTEGER"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         sid,seller_name,password,
-        is_deleted
+        is_delete
     </sql>
     
     <select id="selectBySellerName" resultMap="BaseResultMap">
@@ -35,7 +35,7 @@
         values
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="sid != null">#{sid,jdbcType=INTEGER},</if>
-            <if test="sellerName != null">#{seller_name,jdbcType=VARCHAR},</if>
+            <if test="sellerName != null">#{sellerName,jdbcType=VARCHAR},</if>
             <if test="password != null">#{password,jdbcType=CHAR},</if>
             <if test="isDelete != null">#{isDelete,jdbcType=INTEGER},</if>
         </trim>

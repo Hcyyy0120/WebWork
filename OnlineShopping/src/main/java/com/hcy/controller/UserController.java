@@ -80,6 +80,25 @@ public class UserController {
         return map;
     }
     
+    @GetMapping("/getUserInfo")
+    public Map<String,Object> getUserInfo(HttpSession session) {
+        HashMap<String, Object> map = new HashMap<>();
+        User user = (User)session.getAttribute("user");
+        //System.out.println("user=====" + user);
+        if(user!=null) {
+            map.put("userInfo",user.getUsername());
+            return map;
+        }
+        map.put("userInfo","not_exists");
+        return map;
+    }
     
+    @GetMapping("/userLoginOut")
+    public Map<String,Object> UserLoginOut(HttpSession session) {
+        HashMap<String, Object> map = new HashMap<>();
+        session.invalidate();
+        map.put("message","点击返回登录页");
+        return map;
+    }
 }
 

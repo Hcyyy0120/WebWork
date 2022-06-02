@@ -1,12 +1,10 @@
 package com.hcy.controller;
 
 import com.hcy.pojo.Seller;
+import com.hcy.pojo.User;
 import com.hcy.service.SellerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
@@ -47,10 +45,11 @@ public class SellerController {
     @PostMapping("/reg")
     public Map<String, Object> SellerReg(@RequestBody Seller seller) {
         Seller checkSeller = sellerService.selectBySellerName(seller.getSellerName());//在数据库里查找是否已存在
+        System.out.println("111111111" + checkSeller);
         HashMap<String, Object> map = new HashMap<>();
         if (checkSeller != null) {
             map.put("status", false);
-            map.put("message", "用户已存在");
+            map.put("message", "商家已存在");
             return map;
         }
         int res = sellerService.insertSelective(seller);
@@ -61,6 +60,23 @@ public class SellerController {
         }
         map.put("status", true);
         map.put("message", "注册成功");
+        return map;
+    }
+    
+    @GetMapping("/getSellerInfo")
+    public Map<String,Object> getSellerInfo(HttpSession session) {
+        HashMap<String, Object> map = new HashMap<>();
+        Seller seller = (Seller)session.getAttribute("seller");
+        map.put("sellerInfo",seller.getSellerName());
+        System.out.println("111111111" + seller.getSellerName());
+        return map;
+    }
+    
+    @GetMapping("/sellerLoginOut")
+    public Map<String,Object> SellerLoginOut(HttpSession session) {
+        HashMap<String, Object> map = new HashMap<>();
+        session.invalidate();
+        map.put("message","点击返回登录页");
         return map;
     }
 }

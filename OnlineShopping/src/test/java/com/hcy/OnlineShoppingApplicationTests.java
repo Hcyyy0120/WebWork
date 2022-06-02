@@ -33,6 +33,12 @@ class OnlineShoppingApplicationTests {
     public void testInsert() {
         Seller admin = sellerMapper.selectBySellerName("admin");
         System.out.println(admin);
+    }
     
+    @Test
+    public void testSellerInsert() {
+        Seller seller = new Seller(null,"卖东西的人","123",null);
+        int i = sellerMapper.insertSelective(seller);
+        System.out.println("i====" + i);
     }
 }
