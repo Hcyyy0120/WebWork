@@ -21,18 +21,6 @@ public class ProductController {
         return productService.getAllProductVo(productVo);
     }
     
-/*    @PostMapping ("/condition")
-    public List<ProductVo> selectByCondition(@RequestBody String title,
-                                             @RequestBody String typeName,
-                                             @RequestBody Long beginPrice,
-                                             @RequestBody Long endPrice) {
-        System.out.println("title===" + title);
-        System.out.println("typeName===" + typeName);
-        System.out.println("beginPrice===" + beginPrice);
-        System.out.println("endPrice===" + endPrice);
-        return productService.selectAllByCondition(title,typeName,beginPrice,endPrice);
-    }*/
-    
     @PostMapping ("/condition")
     public List<ProductVo> selectByCondition(@RequestBody ProductVo productVo) {
         System.out.println(productVo);
