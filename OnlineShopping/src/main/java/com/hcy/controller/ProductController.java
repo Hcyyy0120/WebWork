@@ -23,6 +23,11 @@ public class ProductController {
     @PostMapping ("/condition")
     public List<ProductVo> selectByCondition(@RequestBody ProductVo productVo) {
         System.out.println(productVo);
-        return productService.selectAllByCondition(productVo.getTitle(), productVo.getTypeName(), productVo.getBeginPrice(), productVo.getEndPrice());
+        return productService.selectAllByCondition(productVo.getTitle(), productVo.getTypeName(), productVo.getBeginPrice(), productVo.getEndPrice(), productVo.getSellerName());
+    }
+    
+    @PostMapping("/seller")
+    public List<ProductVo> selectAllProductVoBySeller(@RequestBody ProductVo productVo) {
+        return productService.selectAllProductVoBySeller(productVo.getSellerName());
     }
 }

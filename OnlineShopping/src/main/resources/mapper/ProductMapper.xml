@@ -52,16 +52,15 @@
             <if test="typeName != null and typeName != '' ">
                 and type_name like "%" #{typeName} "%"
             </if>
-            <if test="beginPrice != null and endPrice != null">
+            <if test="beginPrice != null and endPrice != null ">
                 and price between #{beginPrice} and #{endPrice}
+            </if>
+            <if test="sellerName != null and sellerName != '' ">
+                and seller_name like "%" #{sellerName} "%"
             </if>
         </where>
     </select>
     
-    
-    <select id="selectAllBySeller" resultType="com.hcy.pojo.vo.ProductVo">
-    
-    </select>
 
 
 </mapper>

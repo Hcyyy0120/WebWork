@@ -48,9 +48,7 @@ public class ProductVo {
     
     private Long beginPrice;
     private Long endPrice;
-    /**
-     * 创建人
-     */
+
     private String sellerName;
 
 }

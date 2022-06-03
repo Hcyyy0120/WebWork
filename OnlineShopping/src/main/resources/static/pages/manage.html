@@ -246,6 +246,7 @@
                         
                         <!--搜索框-->
                         <el-form :inline="true" :model="formInline" class="demo-form-inline">
+                            
                             <el-form-item label="商品名">
                                 <el-input v-model="formInline.title" placeholder="商品名"></el-input>
                             </el-form-item>
@@ -273,7 +274,7 @@
                                 </div>
                             </el-form-item>
                         </el-form>
-                        
+
                         <!--商品列表-->
                         <template>
                             <el-table
@@ -357,6 +358,7 @@
                             typeName: '',
                             beginPrice: '',
                             endPrice: '',
+                            sellerName: ''
                         },
                         client: {
                             clientName: ''
@@ -367,7 +369,7 @@
                 },
                 mounted() {
                     this.getClientInfo();
-                    this.selectAll();
+                    // this.selectAllBySeller();
                 },
                 methods: {
                     handleClick(row) {
@@ -453,14 +455,18 @@
                             method: "get",
                             url: "http://localhost:8080/seller/getSellerInfo"
                         }).then(function (res) {
+                            
+                            _this.formInline.sellerName = res.data.sellerInfo;
                             _this.client.clientName = "商家：" + res.data.sellerInfo;
+                            _this.selectAllBySeller();
                         })
                     },
-                    selectAll() {
+                    selectAllBySeller() {
                         var _this = this;
                         axios({
-                            method: "get",
-                            url: "http://localhost:8080/product/all"
+                            method: "post",
+                            url: "http://localhost:8080/product/seller",
+                            data: _this.formInline
                         }).then(function (res) {
                                 _this.tableData = res.data
                             }

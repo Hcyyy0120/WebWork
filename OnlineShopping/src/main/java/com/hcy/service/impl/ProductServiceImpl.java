@@ -27,9 +27,15 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
     }
     
     @Override
-    public List<ProductVo> selectAllByCondition(String title, String typeName,Long beginPrice, Long endPrice) {
-        return productMapper.selectAllByCondition(title,typeName,beginPrice,endPrice);
+    public List<ProductVo> selectAllByCondition(String title, String typeName,Long beginPrice, Long endPrice,String sellerName) {
+        return productMapper.selectAllByCondition(title,typeName,beginPrice,endPrice,sellerName);
     }
+    
+    @Override
+    public List<ProductVo> selectAllProductVoBySeller(String sellerName) {
+        return productMapper.selectAllProductVoBySeller(sellerName);
+    }
+    
 }
 
 
