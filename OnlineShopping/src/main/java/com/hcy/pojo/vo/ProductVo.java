@@ -11,6 +11,7 @@ public class ProductVo {
     
     private Integer id;
     
+    private Integer categoryId;
     /**
      * 类型名称
      */
@@ -22,7 +23,7 @@ public class ProductVo {
     private String itemType;
     
     /**
-     * 商品标题
+     * 商品标题/名
      */
     private String title;
     
@@ -48,7 +49,10 @@ public class ProductVo {
     
     private Long beginPrice;
     private Long endPrice;
-
+    
+    /**
+     * 商家名
+     */
     private String sellerName;
 
 }

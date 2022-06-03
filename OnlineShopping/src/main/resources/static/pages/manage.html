@@ -270,10 +270,49 @@
                             <el-form-item>
                                 <div align="center">
                                     <el-button type="primary" @click="selectByCondition()">搜索</el-button>
-                                    <el-button type="primary" @click="">新增</el-button>
+                                    <el-button type="primary" @click="productFormVisible = true">新增</el-button>
                                 </div>
                             </el-form-item>
                         </el-form>
+                        
+                        <!--新增商品的嵌套表单-->
+                        <el-dialog title="新增商品" :visible.sync="productFormVisible">
+                            <el-form ref="insertProductForm" :model="insertProductForm" label-width="80px">
+                                <el-form-item label="分类">
+                                    <el-select v-model="insertProductForm.categoryId" placeholder="请选择商品所属类型">
+                                        <el-option label="图书、音像" value="1"></el-option>
+                                        <el-option label="笔记本" value="2"></el-option>
+                                        <el-option label="文件管理" value="3"></el-option>
+                                        <el-option label="本册/便签" value="4"></el-option>
+                                        <el-option label="笔类" value="5"></el-option>
+                                        <el-option label="双肩包" value="6"></el-option>
+                                    </el-select>
+                                </el-form-item>
+                                <el-form-item label="系列">
+                                    <el-input v-model="insertProductForm.itemType"
+                                              placeholder="Lenovo Legion Y7000 2020"></el-input>
+                                </el-form-item>
+                                <el-form-item label="商品名称">
+                                    <el-input v-model="insertProductForm.title" placeholder="拯救者Y7000P"></el-input>
+                                </el-form-item>
+                                <el-form-item label="商品价格">
+                                    <el-input v-model="insertProductForm.price" placeholder="6000"></el-input>
+                                </el-form-item>
+                                <el-form-item label="商品库存">
+                                    <el-input v-model="insertProductForm.num" placeholder="6666"></el-input>
+                                </el-form-item>
+                                <el-form-item label="商家名">
+                                    <el-input v-model="insertProductForm.sellerName" readonly="true"></el-input>
+                                </el-form-item>
+                                <el-form-item label="商品简介">
+                                    <el-input type="textarea" v-model="insertProductForm.sellPoint" placeholder="牛的"></el-input>
+                                </el-form-item>
+                                <el-form-item>
+                                    <el-button type="primary" @click="insertProduct()">立即创建</el-button>
+                                    <el-button @click="productFormVisible=false">取消</el-button>
+                                </el-form-item>
+                            </el-form>
+                        </el-dialog>
                         
                         <!--商品列表-->
                         <template>
@@ -312,7 +351,7 @@
                                         label="操作"
                                         width="200">
                                     <template slot-scope="scope">
-                                        <el-button @click="handleClick(scope.row)" type="text" size="medium">编辑
+                                        <el-button @click="editProduct(scope.row)" type="text" size="medium">编辑
                                         </el-button>
                                         <el-button type="text" size="medium" @click="isDelete(scope.row)">删除</el-button>
                                     </template>
@@ -363,16 +402,43 @@
                         client: {
                             clientName: ''
                         },
+                        insertProductForm: {
+                            categoryId: '',
+                            itemType: '',
+                            title: '',
+                            price: '',
+                            num: '',
+                            sellerName: '',
+                            sellPoint: '',
+                        },
                         sellerName: '',
-                        
+                        productFormVisible: false,/*显示新增商品的表单*/
                     }
                 },
                 mounted() {
                     this.getClientInfo();
-                    // this.selectAllBySeller();
                 },
                 methods: {
-                    handleClick(row) {
+                    insertProduct() {
+                        var _this = this;
+                        axios({
+                            method: "post",
+                            url: "http://localhost:8080/product/insert",
+                            data: _this.insertProductForm
+                        }).then(function (res) {
+                            _this.productFormVisible = false;
+                            _this.insertProductForm.categoryId = '';
+                            _this.insertProductForm.itemType = '';
+                            _this.insertProductForm.title = '';
+                            _this.insertProductForm.price = '';
+                            _this.insertProductForm.num = '';
+                            _this.insertProductForm.sellerName = '';
+                            _this.insertProductForm.sellPoint = '';
+                            _this.window.location.reload();
+     
+                        })
+                    },
+                    editProduct(row) {
                         console.log(row);
                     },
                     isDelete(row) {
@@ -456,8 +522,8 @@
                             method: "get",
                             url: "http://localhost:8080/seller/getSellerInfo"
                         }).then(function (res) {
-                            
                             _this.formInline.sellerName = res.data.sellerInfo;
+                            _this.insertProductForm.sellerName = res.data.sellerInfo;//获取商家名
                             _this.client.clientName = "商家：" + res.data.sellerInfo;
                             _this.selectAllBySeller();
                         })

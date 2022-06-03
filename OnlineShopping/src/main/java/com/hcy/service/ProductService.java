@@ -20,4 +20,6 @@ public interface ProductService extends IService<Product> {
     List<ProductVo> selectAllProductVoBySeller(String sellerName);
     
     void deleteProductById(ProductVo productVo);
+    
+    void insertProduct(ProductVo productVo);
 }
