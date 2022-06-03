@@ -7,11 +7,16 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
- * 仅仅需要页面跳转而没有具体的业务逻辑的代码
- * addViewController参数传入就是controller中的URL，setViewName中传入的参数就是原return的页面。
+ * WebMvcConfigurationSupport不访问前端静态资源，所以适用于前后端分离；
+ * WebMvcConfigurer不拦截静态资源，前后端不分离可以用。
  */
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
+    
+    /**
+     * 仅仅需要页面跳转而没有具体的业务逻辑的代码
+     * addViewController参数传入就是controller中的URL，setViewName中传入的参数就是原return的页面。
+     */
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         //registry.addViewController("").setViewName("");

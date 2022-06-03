@@ -51,6 +51,6 @@ public class ProductVo {
     /**
      * 创建人
      */
-    private String createdUser;
+    private String sellerName;
 
 }

@@ -20,13 +20,18 @@ import java.util.List;
 public interface ProductMapper extends BaseMapper<Product> {
     
     @Select("select t_product.id,t_product.item_type,t_product.title,t_product.sell_point,t_product.price," +
-            "t_product.num,t_product.status,t_product.created_user,t_product_category.type_name " +
+            "t_product.num,t_product.status,t_product.seller_name,t_product_category.type_name " +
             "from t_product,t_product_category " +
             "where t_product.category_id = t_product_category.id")
     List<ProductVo> getAllProductVo();
     
     List<ProductVo> selectAllByCondition(String title,String typeName,Long beginPrice,Long endPrice);
     
+    @Select("select t_product.id,t_product.item_type,t_product.title,t_product.sell_point,t_product.price," +
+            "t_product.num,t_product.status,t_product.seller_name,t_product_category.type_name " +
+            "from t_product,t_product_category " +
+            "where t_product.category_id = t_product_category.id and t_product.seller_name = #{sellerName}")
+    List<ProductVo> selectAllBySeller(String sellerName);
 }
 
 

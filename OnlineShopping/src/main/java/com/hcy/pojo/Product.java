@@ -5,19 +5,13 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
-
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * 
  * @TableName t_product
  */
-
 @TableName(value ="t_product")
-@AllArgsConstructor
-@NoArgsConstructor
 @Data
 public class Product implements Serializable {
     /**
@@ -62,17 +56,12 @@ public class Product implements Serializable {
     private Integer status;
 
     /**
-     * 创建人
+     * 商家
      */
-    private String createdUser;
+    private String sellerName;
     
     @TableField(exist = false)
     private ProductCategory productCategory;
-/*    @TableField(exist = false)
-    private Integer beginPrice;
-    
-    @TableField(exist = false)
-    private Integer endPrice;*/
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

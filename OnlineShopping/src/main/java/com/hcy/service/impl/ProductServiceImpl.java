@@ -1,6 +1,5 @@
 package com.hcy.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hcy.pojo.Product;
 import com.hcy.pojo.vo.ProductVo;
@@ -14,7 +13,7 @@ import java.util.List;
 /**
 * @author 16691
 * @description 针对表【t_product】的数据库操作Service实现
-* @createDate 2022-06-01 10:33:30
+* @createDate 2022-06-03 12:13:17
 */
 @Service
 public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> implements ProductService{

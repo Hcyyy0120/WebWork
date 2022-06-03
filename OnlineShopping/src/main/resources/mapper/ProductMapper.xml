@@ -13,18 +13,18 @@
             <result property="price" column="price" jdbcType="BIGINT"/>
             <result property="num" column="num" jdbcType="INTEGER"/>
             <result property="status" column="status" jdbcType="INTEGER"/>
-            <result property="createdUser" column="created_user" jdbcType="VARCHAR"/>
+            <result property="createdUser" column="seller_name" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         id,category_id,item_type,
         title,sell_point,price,
-        num,status,created_user
+        num,status,seller_name
     </sql>
     
 
     <sql id="Column_List">
-        t_product.id,item_type,title,sell_point,price,num,created_user
+        t_product.id,item_type,title,sell_point,price,num,seller_name
     </sql>
     
     <resultMap id="productResultMap" type="com.hcy.pojo.Product">
@@ -36,7 +36,7 @@
         <result property="price" column="price" jdbcType="BIGINT"/>
         <result property="num" column="num" jdbcType="INTEGER"/>
         <result property="status" column="status" jdbcType="INTEGER"/>
-        <result property="createdUser" column="created_user" jdbcType="VARCHAR"/>
+        <result property="sellerName" column="seller_name" jdbcType="VARCHAR"/>
         <association property="productCategory" javaType="ProductCategory">
             <id column="id" property="id"/>
             <result column="type_name" property="typeName"/>
@@ -56,6 +56,11 @@
                 and price between #{beginPrice} and #{endPrice}
             </if>
         </where>
+    </select>
+    
+    
+    <select id="selectAllBySeller" resultType="com.hcy.pojo.vo.ProductVo">
+    
     </select>
 
 
