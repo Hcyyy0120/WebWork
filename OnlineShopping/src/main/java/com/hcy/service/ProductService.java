@@ -18,4 +18,6 @@ public interface ProductService extends IService<Product> {
     List<ProductVo> selectAllByCondition(String title,String typeName,Long beginPrice,Long endPrice,String sellerName);
     
     List<ProductVo> selectAllProductVoBySeller(String sellerName);
+    
+    void deleteProductById(ProductVo productVo);
 }

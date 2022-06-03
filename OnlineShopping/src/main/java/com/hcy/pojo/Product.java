@@ -51,7 +51,7 @@ public class Product implements Serializable {
     private Integer num;
 
     /**
-     * 商品状态  1：上架   2：下架   3：删除
+     * 商品状态  1：上架   0：删除
      */
     private Integer status;
 

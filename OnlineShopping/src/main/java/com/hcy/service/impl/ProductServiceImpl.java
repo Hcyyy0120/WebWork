@@ -36,6 +36,12 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
         return productMapper.selectAllProductVoBySeller(sellerName);
     }
     
+    @Override
+    public void deleteProductById(ProductVo productVo) {
+        productMapper.deleteProductById(productVo.getId());
+    }
+    
+    
 }
 
 

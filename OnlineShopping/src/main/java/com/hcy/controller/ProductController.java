@@ -1,5 +1,6 @@
 package com.hcy.controller;
 
+import com.hcy.pojo.Product;
 import com.hcy.pojo.vo.ProductVo;
 import com.hcy.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,6 @@ public class ProductController {
     
     @GetMapping("/all")
     public List<ProductVo> selectAll(ProductVo productVo) {
-        
         return productService.getAllProductVo(productVo);
     }
     
@@ -29,5 +29,10 @@ public class ProductController {
     @PostMapping("/seller")
     public List<ProductVo> selectAllProductVoBySeller(@RequestBody ProductVo productVo) {
         return productService.selectAllProductVoBySeller(productVo.getSellerName());
+    }
+    
+    @PostMapping("/delete")
+    public void deleteProductById(@RequestBody ProductVo productVo) {
+        productService.deleteProductById(productVo);
     }
 }

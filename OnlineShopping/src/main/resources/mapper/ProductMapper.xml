@@ -3,29 +3,30 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hcy.mapper.ProductMapper">
-
+    
     <resultMap id="BaseResultMap" type="com.hcy.pojo.Product">
-            <id property="id" column="id" jdbcType="INTEGER"/>
-            <result property="categoryId" column="category_id" jdbcType="INTEGER"/>
-            <result property="itemType" column="item_type" jdbcType="VARCHAR"/>
-            <result property="title" column="title" jdbcType="VARCHAR"/>
-            <result property="sellPoint" column="sell_point" jdbcType="VARCHAR"/>
-            <result property="price" column="price" jdbcType="BIGINT"/>
-            <result property="num" column="num" jdbcType="INTEGER"/>
-            <result property="status" column="status" jdbcType="INTEGER"/>
-            <result property="sellerName" column="seller_name" jdbcType="VARCHAR"/>
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="categoryId" column="category_id" jdbcType="INTEGER"/>
+        <result property="itemType" column="item_type" jdbcType="VARCHAR"/>
+        <result property="title" column="title" jdbcType="VARCHAR"/>
+        <result property="sellPoint" column="sell_point" jdbcType="VARCHAR"/>
+        <result property="price" column="price" jdbcType="BIGINT"/>
+        <result property="num" column="num" jdbcType="INTEGER"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="sellerName" column="seller_name" jdbcType="VARCHAR"/>
     </resultMap>
-
+    
     <sql id="Base_Column_List">
         id,category_id,item_type,
         title,sell_point,price,
         num,status,seller_name
     </sql>
     
-
+    
     <sql id="Column_List">
         t_product.id,item_type,title,sell_point,price,num,seller_name
     </sql>
+    
     
     <resultMap id="productResultMap" type="com.hcy.pojo.Product">
         <id property="id" column="id" jdbcType="INTEGER"/>
@@ -43,7 +44,7 @@
         </association>
     </resultMap>
     <select id="selectAllByCondition" resultType="com.hcy.pojo.vo.ProductVo">
-        select <include refid="Column_List" />,type_name
+        select<include refid="Column_List"/>,type_name
         from t_product join t_product_category on t_product.category_id = t_product_category.id
         <where>
             <if test="title != null and title != '' ">
@@ -58,9 +59,9 @@
             <if test="sellerName != null and sellerName != '' ">
                 and seller_name like "%" #{sellerName} "%"
             </if>
+            and status = 1
         </where>
     </select>
     
-
 
 </mapper>
