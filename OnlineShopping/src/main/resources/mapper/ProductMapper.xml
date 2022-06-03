@@ -13,7 +13,7 @@
             <result property="price" column="price" jdbcType="BIGINT"/>
             <result property="num" column="num" jdbcType="INTEGER"/>
             <result property="status" column="status" jdbcType="INTEGER"/>
-            <result property="createdUser" column="seller_name" jdbcType="VARCHAR"/>
+            <result property="sellerName" column="seller_name" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
