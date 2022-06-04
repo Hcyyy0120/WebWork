@@ -37,11 +37,7 @@
                     opacity: 1
                 }
             }
-
-            .chartjs-render-monitor {
-                -webkit-animation: chartjs-render-animation 0.001s;
-                animation: chartjs-render-animation 0.001s;
-            }
+        
         </style>
     </head>
     
@@ -79,7 +75,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-                        <div class="sidebar-sticky">
+                        <div class="sidebar-sticky" style="position: fixed">
                             <ul class="nav flex-column">
                                 <li class="nav-item">
                                     <a class="nav-link active" href="http://localhost:8080/pages/dashboard.html">
@@ -159,7 +155,7 @@
                                     </a>
                                 </li>
                             </ul>
-                            
+                        
                         </div>
                     </nav>
                     
@@ -176,104 +172,74 @@
                             </div>
                         </div>
                         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-                            <h1 class="h2">商城</h1>
+                            <h1 class="h2">购物车</h1>
                         </div>
                         
-                        <!--搜索框-->
-                        <el-form :inline="true" :model="formInline" class="demo-form-inline">
-                            <el-form-item label="商品名">
-                                <el-input v-model="formInline.title" placeholder="商品名"></el-input>
-                            </el-form-item>
-                            <el-form-item label="最低价">
-                                <el-input v-model="formInline.beginPrice" placeholder="0"></el-input>
-                            </el-form-item>
-                            <el-form-item label="最高价">
-                                <el-input v-model="formInline.endPrice" placeholder="99999"></el-input>
-                            </el-form-item>
-                            <el-form-item label="商品类型">
-                                <el-select v-model="formInline.typeName" placeholder="所有商品">
-                                    <el-option label="全部" value=""></el-option>
-                                    <el-option label="图书、音像" value="图书、音像"></el-option>
-                                    <el-option label="笔记本" value="笔记本"></el-option>
-                                    <el-option label="文件管理" value="文件管理"></el-option>
-                                    <el-option label="本册/便签" value="本册/便签"></el-option>
-                                    <el-option label="笔类" value="笔类"></el-option>
-                                    <el-option label="双肩包" value="双肩包"></el-option>
-                                </el-select>
-                            </el-form-item>
-                            <el-form-item>
-                                <el-button type="primary" @click="selectByCondition()">搜索</el-button>
-                            </el-form-item>
-                        </el-form>
                         
-                        <!--商品列表-->
+                        <!--购物车列表-->
                         <template>
                             <el-table
+                                    ref="multipleTable"
                                     :data="tableData"
-                                    height="500"
-                                    border
-                                    style="width: 100%">
+                                    tooltip-effect="dark"
+                                    style="width: 100%"
+                                    @selection-change="handleSelectionChange">
                                 <el-table-column
-                                        prop="itemType"
-                                        label="商品类型"
-                                        width="180"
+                                        type="selection"
+                                        width="80"
                                         align="center"
                                         header-align="center">
                                 </el-table-column>
                                 <el-table-column
-                                        prop="title"
-                                        label="商品名"
-                                        width="440"
+                                        prop="cartItemName"
+                                        label="商品"
+                                        width="250"
+                                        align="center"
+                                        header-align="center"
+                                        show-overflow-tooltip="true">
+                                </el-table-column>
+                                <el-table-column
+                                        prop="cartItemPrice"
+                                        label="单价"
+                                        width="200"
                                         align="center"
                                         header-align="center">
                                 </el-table-column>
                                 <el-table-column
-                                        prop="price"
-                                        label="价格"
-                                        width="120"
+                                        prop="cartItemNum"
+                                        label="数量"
+                                        width="200"
+                                        align="center"
+                                        header-align="center">
+                                    <template slot-scope="scope">
+                                        <el-input-number v-model="cartItemNum" :min="1" :max="10" size="large"></el-input-number>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column
+                                        prop="cartItemTotalPrice"
+                                        label="总金额"
+                                        width="250"
                                         align="center"
                                         header-align="center">
                                 </el-table-column>
                                 <el-table-column
-                                        prop="num"
-                                        label="库存"
-                                        width="120"
-                                        align="center"
-                                        header-align="center">
-                                </el-table-column>
-                                <el-table-column
-                                        prop="sellerName"
-                                        label="商家名"
-                                        width="150"
-                                        align="center"
-                                        header-align="center">
-                                </el-table-column>
-                                <el-table-column
-                                        fixed="right"
                                         label="操作"
                                         width="200"
                                         align="center"
                                         header-align="center">
                                     <template slot-scope="scope">
-                                        <!--<el-button @click="handleClick(scope.row)" type="text" size="medium ">查看
-                                        </el-button>-->
-                                        <el-popover
-                                                placement="bottom"
-                                                title="详情"
-                                                width="200"
-                                                trigger="hover">
-                                            <!--content=""
-                                            v-model="sellPoint"-->
-                                            {{scope.row.sellPoint}}
-                                            <el-button type="text" slot="reference">查看详情
-                                            </el-button>
-                                        </el-popover>
-                                        <el-button type="text" size="medium" @click="addIntoCart(scope.row)">添加至购物车</el-button>
+                                        <el-button type="text" size="medium">删除</el-button>
                                     </template>
                                 </el-table-column>
                             </el-table>
+                            <div style="margin-top: 20px">
+                                <el-button @click="toggleSelection(tableData)">全选
+                                </el-button>
+                                <el-button @click="toggleSelection()">取消选择</el-button>
+                            </div>
                         </template>
-                        
+                    
+                    
                     </main>
                 </div>
             </div>
@@ -298,32 +264,35 @@
             data() {
                 return {
                     tableData: [{
-                        itemType: '',
-                        title: '',
-                        price: '',
-                        num: '',
-                        sellerName: '',
-                        sellPoint: ''
+                        date: '2016-05-03',
+                        name: '王小虎',
+                        address: '上海市普陀区金沙江路 1518 弄'
                     }],
-                    formInline: {
-                        title: '',
-                        typeName: '',
-                        beginPrice: '',
-                        endPrice: '',
-                    },
+                    cartItemNum:1,
+                    multipleSelection: [],
                     client: {
                         clientName: ''
                     },
-                    
                 }
             },
+            
             mounted() {
-                this.selectAll();
+                //this.selectAll();
                 this.getClientInfo();
             },
+            
             methods: {
-                addIntoCart(row) {
-                    var _this = this;
+                toggleSelection(rows) {
+                    if (rows) {
+                        rows.forEach(row => {
+                            this.$refs.multipleTable.toggleRowSelection(row);
+                        });
+                    } else {
+                        this.$refs.multipleTable.clearSelection();
+                    }
+                },
+                handleSelectionChange(val) {
+                    this.multipleSelection = val;
                 },
                 clearCookie() {
                     var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
@@ -344,7 +313,7 @@
                             url: "http://localhost:8080/user/userLoginOut"
                         }).then(function (res) {
                             alert(res.data.message);
-                            _this.clearCookie();//删除所有cookie取消自动登录
+                            _this.clearCookie();//通过删除所有cookie来取消自动登录
                             window.location.reload();
                         })
                     } else {
@@ -368,7 +337,6 @@
                         } else {
                             _this.getSellerInfo();
                         }
-                        
                     })
                 },
                 getSellerInfo() {
@@ -380,28 +348,6 @@
                         _this.client.clientName = "商家：" + res.data.sellerInfo;
                     })
                 },
-                selectAll() {
-                    var _this = this;
-                    axios({
-                        method: "get",
-                        url: "http://localhost:8080/product/all"
-                    }).then(function (res) {
-                            _this.tableData = res.data
-                        }
-                    )
-                },
-                selectByCondition() {
-                    var _this = this;
-                    axios({
-                        method: "post",
-                        url: "http://localhost:8080/product/condition",
-                        data: _this.formInline
-                    }).then(function (res) {
-                            console.log(res.data)
-                            _this.tableData = res.data
-                        }
-                    )
-                }
             }
         })
     </script>
