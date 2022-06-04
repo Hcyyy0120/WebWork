@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 @Data
 public class ProductVo {
     
+    /**
+     * 商品id（pid）
+     */
     private Integer id;
     
     private Integer categoryId;

@@ -24,7 +24,7 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements Ca
     private ProductMapper productMapper;
     
     @Override
-    public void insertIntoCart(Integer uid, Integer pid,Integer amount) {
+    public void insertIntoCart(Integer uid, Integer pid) {
         Cart result = cartMapper.selectByUidAndPid(uid, pid);
         if (result == null) {
             Cart cart = new Cart();
@@ -34,8 +34,9 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements Ca
             //补全价格
             Product product = productMapper.selectById(pid);
             cart.setCartItemPrice(product.getPrice());
-        } else {
-            Integer num = result.getCartItemNum() + amount;
+            cartMapper.insertIntoCart(cart);
+        } else {//若购物车里已存在该商品
+            Integer num = result.getCartItemNum() + 1;
             cartMapper.updateCartItemNumByCid(result.getCid(),num);
         }
     }

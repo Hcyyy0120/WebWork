@@ -15,5 +15,5 @@ public interface CartService extends IService<Cart> {
      * @param uid 用户id
      * @param pid 商品id
      */
-    void insertIntoCart(Integer uid, Integer pid,Integer amount);
+    void insertIntoCart(Integer uid, Integer pid);
 }

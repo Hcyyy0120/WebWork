@@ -19,8 +19,8 @@
     </sql>
     
     <insert id="insertIntoCart">
-        insert into t_cart (uid, pid, cart_item_price, cart_item_num)
-        values (#{uid}, #{pid}, #{cartItemPrice}, #{cartItemNum})
+        insert into t_cart (uid, pid, cart_item_price)
+        values (#{uid}, #{pid}, #{cartItemPrice})
     </insert>
     
     <update id="updateCartItemNumByCid">

@@ -84,6 +84,7 @@ public class SellerController {
         HashMap<String, Object> map = new HashMap<>();
         Seller seller = (Seller)session.getAttribute("seller");
         map.put("sellerInfo",seller.getSellerName());
+        map.put("sellerId",seller.getSid());
         return map;
     }
     

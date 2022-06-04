@@ -44,10 +44,10 @@ class OnlineShoppingTests {
         Cart cart = new Cart();
         cart.setUid(1);
         cart.setPid(4);
-        cart.setCartItemNum(4);
         cart.setCartItemPrice(58L);
         cartMapper.insertIntoCart(cart);
     }
+    
     @Test
     public void testUpdateCartItemNumByCid() {
         cartMapper.updateCartItemNumByCid(1, 5);
@@ -66,6 +66,6 @@ class OnlineShoppingTests {
     
     @Test
     public void testInsertCart() {
-        cartService.insertIntoCart(1,1,2);
+        cartService.insertIntoCart(1,1);
     }
 }

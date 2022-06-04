@@ -111,6 +111,7 @@ public class UserController {
         //System.out.println("user=====" + user);
         if(user!=null) {
             map.put("userInfo",user.getUsername());
+            map.put("userId",user.getUid());
             return map;
         }
         map.put("userInfo","not_exists");

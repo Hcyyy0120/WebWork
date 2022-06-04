@@ -159,7 +159,7 @@
                                     </a>
                                 </li>
                             </ul>
-                            
+                        
                         </div>
                     </nav>
                     
@@ -268,12 +268,14 @@
                                             <el-button type="text" slot="reference">查看详情
                                             </el-button>
                                         </el-popover>
-                                        <el-button type="text" size="medium" @click="addIntoCart(scope.row)">添加至购物车</el-button>
+                                        <el-button type="text" size="medium" :plain="true"
+                                                   @click="addIntoCart(scope.row)">添加至购物车
+                                        </el-button>
                                     </template>
                                 </el-table-column>
                             </el-table>
                         </template>
-                        
+                    
                     </main>
                 </div>
             </div>
@@ -298,6 +300,7 @@
             data() {
                 return {
                     tableData: [{
+                        id: '',
                         itemType: '',
                         title: '',
                         price: '',
@@ -306,13 +309,15 @@
                         sellPoint: ''
                     }],
                     formInline: {
+                        id: '',
                         title: '',
                         typeName: '',
                         beginPrice: '',
                         endPrice: '',
                     },
                     client: {
-                        clientName: ''
+                        clientName: '',
+                        id: ''
                     },
                     
                 }
@@ -322,8 +327,24 @@
                 this.getClientInfo();
             },
             methods: {
+                addSuccess() {
+                    this.$message({
+                        showClose: true,
+                        message: '加入成功！',
+                        type: 'success'
+                    });
+                },
                 addIntoCart(row) {
+                    this.tableData = row;
                     var _this = this;
+                    axios({
+                        method: "post",
+                        url: "http://localhost:8080/cart/insert",
+                        data: _this.tableData
+                    }).then(function (res) {
+                        //window.location.reload();
+                        _this.addSuccess();
+                    })
                 },
                 clearCookie() {
                     var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
@@ -365,6 +386,7 @@
                     }).then(function (res) {
                         if (res.data.userInfo != "not_exists") {
                             _this.client.clientName = "用户：" + res.data.userInfo;
+                            _this.client.id = res.data.userId;
                         } else {
                             _this.getSellerInfo();
                         }
@@ -378,6 +400,7 @@
                         url: "http://localhost:8080/seller/getSellerInfo"
                     }).then(function (res) {
                         _this.client.clientName = "商家：" + res.data.sellerInfo;
+                        _this.client.id = res.data.sellerId;
                     })
                 },
                 selectAll() {
