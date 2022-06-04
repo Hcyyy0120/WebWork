@@ -23,6 +23,15 @@ public class UserController {
     @Autowired
     private UserService userService;
     
+    /**
+     * 用户登录
+     * @param user
+     * @param isRemembered
+     * @param response
+     * @param request
+     * @param session
+     * @return
+     */
     @PostMapping("/login/{isRemembered}")
     public Map<String, Object> UserLogin(@RequestBody User user, @PathVariable String isRemembered, HttpServletResponse response, HttpServletRequest request, HttpSession session) {
         
@@ -53,13 +62,23 @@ public class UserController {
         return map;
     }
     
-    
+    /**
+     * 用户无需输入用户名和密码，自动登录
+     * @param response
+     * @param request
+     * @param session
+     * @return
+     */
     @GetMapping("/check")
     public Map<String, Object> UserAutoLogin(HttpServletResponse response, HttpServletRequest request, HttpSession session) {
         return userService.autoLogin(request, response, session);
     }
     
-    
+    /**
+     * 用户注册
+     * @param user
+     * @return
+     */
     @PostMapping("/reg")
     public Map<String, Object> UserReg(@RequestBody User user) {
         User checkUser = userService.selectByUsername(user.getUsername());//在数据库里查找是否已存在
@@ -80,6 +99,11 @@ public class UserController {
         return map;
     }
     
+    /**
+     * 获取用户信息（用户名）
+     * @param session
+     * @return
+     */
     @GetMapping("/getUserInfo")
     public Map<String,Object> getUserInfo(HttpSession session) {
         HashMap<String, Object> map = new HashMap<>();
@@ -93,6 +117,11 @@ public class UserController {
         return map;
     }
     
+    /**
+     * 用户注销/登出
+     * @param session
+     * @return
+     */
     @GetMapping("/userLoginOut")
     public Map<String,Object> UserLoginOut(HttpSession session) {
         HashMap<String, Object> map = new HashMap<>();

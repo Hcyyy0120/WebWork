@@ -17,6 +17,12 @@ public class SellerController {
     @Autowired
     private SellerService sellerService;
     
+    /**
+     * 商家登录
+     * @param seller
+     * @param session
+     * @return
+     */
     @PostMapping("/login")
     public Map<String, Object> SellerLogin(@RequestBody Seller seller, HttpSession session) {
         Seller checkSeller = sellerService.selectBySellerName(seller.getSellerName());
@@ -42,6 +48,11 @@ public class SellerController {
         return map;
     }
     
+    /**
+     * 商家入驻/注册
+     * @param seller
+     * @return
+     */
     @PostMapping("/reg")
     public Map<String, Object> SellerReg(@RequestBody Seller seller) {
         Seller checkSeller = sellerService.selectBySellerName(seller.getSellerName());//在数据库里查找是否已存在
@@ -63,6 +74,11 @@ public class SellerController {
         return map;
     }
     
+    /**
+     * 获取商家信息（商家名）
+     * @param session
+     * @return
+     */
     @GetMapping("/getSellerInfo")
     public Map<String,Object> getSellerInfo(HttpSession session) {
         HashMap<String, Object> map = new HashMap<>();
@@ -71,6 +87,11 @@ public class SellerController {
         return map;
     }
     
+    /**
+     * 商家注销/登出
+     * @param session
+     * @return
+     */
     @GetMapping("/sellerLoginOut")
     public Map<String,Object> SellerLoginOut(HttpSession session) {
         HashMap<String, Object> map = new HashMap<>();

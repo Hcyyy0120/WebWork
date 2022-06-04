@@ -24,7 +24,7 @@ public class MvcConfig implements WebMvcConfigurer {
     
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(loginInterceptor())
+        registry.addInterceptor(userLoginHandlerInterceptor())
                 .addPathPatterns("/**")
                 .excludePathPatterns("/pages/index.html",
                         "/user/reg", "/user/check",
@@ -32,13 +32,21 @@ public class MvcConfig implements WebMvcConfigurer {
                         "/js/**", "/img/**",
                         "/plugins/**","/seller/login",
                         "/seller/reg");
+        
+        registry.addInterceptor(sellerLoginHandlerInterceptor())
+                .addPathPatterns("/**")
+                .excludePathPatterns("/pages/index.html",
+                        "/css/**","/js/**","/img/**",
+                        "/plugins/**");
     }
     
     
     @Bean
-    public UserLoginHandlerInterceptor loginInterceptor() {
-        
+    public UserLoginHandlerInterceptor userLoginHandlerInterceptor() {
         return new UserLoginHandlerInterceptor();
-        
+    }
+    
+    public SellerLoginHandlerInterceptor sellerLoginHandlerInterceptor() {
+        return new SellerLoginHandlerInterceptor();
     }
 }
