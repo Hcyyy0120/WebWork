@@ -40,4 +40,9 @@ public class ProductController {
     public void insertProduct(@RequestBody ProductVo productVo) {
         productService.insertProduct(productVo);
     }
+    
+    @PostMapping("/update")
+    public void updateProductById(@RequestBody ProductVo productVo) {
+        productService.updateProductById(productVo);
+    }
 }

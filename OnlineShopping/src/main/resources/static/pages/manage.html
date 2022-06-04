@@ -351,14 +351,49 @@
                                         label="操作"
                                         width="200">
                                     <template slot-scope="scope">
-                                        <el-button @click="editProduct(scope.row)" type="text" size="medium">编辑
+                                        <el-button @click="showUpdateFrom(scope.row)" type="text" size="medium">编辑
                                         </el-button>
                                         <el-button type="text" size="medium" @click="isDelete(scope.row)">删除</el-button>
                                     </template>
                                 </el-table-column>
                             </el-table>
                         </template>
-                    
+    
+                        <!--编辑商品信息-->
+                        <el-dialog title="编辑商品信息" :visible.sync="updateProductFromVisible">
+                            <el-form ref="insertProductForm" :model="updateProductForm" label-width="80px">
+                                <el-form-item label="分类">
+                                    <el-select v-model="updateProductForm.categoryId" placeholder="请选择商品所属类型">
+                                        <el-option label="图书、音像" value="1"></el-option>
+                                        <el-option label="笔记本" value="2"></el-option>
+                                        <el-option label="文件管理" value="3"></el-option>
+                                        <el-option label="本册/便签" value="4"></el-option>
+                                        <el-option label="笔类" value="5"></el-option>
+                                        <el-option label="双肩包" value="6"></el-option>
+                                    </el-select>
+                                </el-form-item>
+                                <el-form-item label="系列">
+                                    <el-input v-model="updateProductForm.itemType"></el-input>
+                                </el-form-item>
+                                <el-form-item label="商品名称">
+                                    <el-input v-model="updateProductForm.title"></el-input>
+                                </el-form-item>
+                                <el-form-item label="商品价格">
+                                    <el-input v-model="updateProductForm.price"></el-input>
+                                </el-form-item>
+                                <el-form-item label="商品库存">
+                                    <el-input v-model="updateProductForm.num"></el-input>
+                                </el-form-item>
+                                <el-form-item label="商品简介">
+                                    <el-input type="textarea" v-model="updateProductForm.sellPoint"></el-input>
+                                </el-form-item>
+                                <el-form-item>
+                                    <el-button type="primary" @click="updateProduct()">确认修改</el-button>
+                                    <el-button @click="dialogFormVisible = false">取消</el-button>
+                                </el-form-item>
+                            </el-form>
+                        </el-dialog>
+                        
                     </main>
                 </div>
             </div>
@@ -411,8 +446,18 @@
                             sellerName: '',
                             sellPoint: '',
                         },
+                        updateProductForm:{
+                            categoryId: '',
+                            itemType: '',
+                            title: '',
+                            price: '',
+                            num: '',
+                            sellerName: '',
+                            sellPoint: '',
+                        },
                         sellerName: '',
                         productFormVisible: false,/*显示新增商品的表单*/
+                        updateProductFromVisible: false,/*显示编辑商品的表单*/
                     }
                 },
                 mounted() {
@@ -438,8 +483,21 @@
      
                         })
                     },
-                    editProduct(row) {
-                        console.log(row);
+                    showUpdateFrom(row) {
+                        this.updateProductFromVisible = true;
+                        this.updateProductForm = row;
+                    },
+                    updateProduct() {
+                        var _this = this;
+                        axios({
+                            method: "post",
+                            url: "http://localhost:8080/product/update",
+                            data: _this.updateProductForm
+                        }).then(function (res) {
+                            _this.updateProductFromVisible = false;
+                            window.location.reload();
+        
+                        })
                     },
                     isDelete(row) {
                         this.$confirm('删除后不可恢复, 是否继续?', '提示', {

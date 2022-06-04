@@ -61,6 +61,14 @@ public interface ProductMapper extends BaseMapper<Product> {
             "VALUES(#{categoryId},#{itemType},#{title},#{sellPoint},#{price},#{num},#{sellerName})")
     void insertProduct(ProductVo productVo);
     
+    /**
+     * 商家修改商品
+     * @param productVo
+     */
+    @Update("update t_product set category_id = #{categoryId},item_type = #{itemType}," +
+            "title = #{title},sell_point = #{sellPoint},price = #{price},num = #{num} where id = #{id}")
+    void updateProductById(ProductVo productVo);
+    
 }
 
 

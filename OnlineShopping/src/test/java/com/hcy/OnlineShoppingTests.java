@@ -15,7 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.List;
 
 @SpringBootTest
-class OnlineShoppingApplicationTests {
+class OnlineShoppingTests {
     @Autowired
     UserMapper userMapper;
     
@@ -40,5 +40,11 @@ class OnlineShoppingApplicationTests {
         Seller seller = new Seller(null,"卖东西的人","123",null);
         int i = sellerMapper.insertSelective(seller);
         System.out.println("i====" + i);
+    }
+    
+    @Test
+    public void testUpdate() {
+        ProductVo productVo = new ProductVo(61,3,"1","1","1","1",1L,1,null,null,"admin");
+        productMapper.updateProductById(productVo);
     }
 }

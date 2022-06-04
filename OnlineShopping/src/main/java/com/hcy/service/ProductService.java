@@ -22,4 +22,6 @@ public interface ProductService extends IService<Product> {
     void deleteProductById(ProductVo productVo);
     
     void insertProduct(ProductVo productVo);
+    
+    void updateProductById(ProductVo productVo);
 }

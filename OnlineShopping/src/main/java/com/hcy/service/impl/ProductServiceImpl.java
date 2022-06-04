@@ -46,6 +46,11 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
         productMapper.insertProduct(productVo);
     }
     
+    @Override
+    public void updateProductById(ProductVo productVo) {
+        productMapper.updateProductById(productVo);
+    }
+    
     
 }
 

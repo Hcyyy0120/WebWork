@@ -36,9 +36,9 @@ public class MvcConfig implements WebMvcConfigurer {
     
     
     @Bean
-    public LoginHandlerInterceptor loginInterceptor() {
+    public UserLoginHandlerInterceptor loginInterceptor() {
         
-        return new LoginHandlerInterceptor();
+        return new UserLoginHandlerInterceptor();
         
     }
 }
