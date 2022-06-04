@@ -16,6 +16,15 @@ import java.util.List;
 */
 @Mapper
 public interface ProductMapper extends BaseMapper<Product> {
+    
+    /**
+     * 根据商品id查询商品
+     * @param id
+     * @return
+     */
+    @Select("select * from t_product where id = #{id}")
+    Product selectById(Integer id);
+    
     /**
      * 查询所有商品
      * @return

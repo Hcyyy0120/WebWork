@@ -2,12 +2,16 @@ package com.hcy;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.hcy.mapper.CartMapper;
 import com.hcy.mapper.ProductMapper;
 import com.hcy.mapper.SellerMapper;
 import com.hcy.mapper.UserMapper;
+import com.hcy.pojo.Cart;
+import com.hcy.pojo.Product;
 import com.hcy.pojo.Seller;
 import com.hcy.pojo.User;
 import com.hcy.pojo.vo.ProductVo;
+import com.hcy.service.CartService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,13 +29,43 @@ class OnlineShoppingTests {
     @Autowired
     SellerMapper sellerMapper;
     
+    @Autowired
+    CartMapper cartMapper;
+    
+    @Autowired
+    CartService cartService;
+    
     @Test
     void contextLoads() {
     }
     
     @Test
-    public void testAddIntoCart() {
-    
+    public void testInsertIntoCart() {
+        Cart cart = new Cart();
+        cart.setUid(1);
+        cart.setPid(4);
+        cart.setCartItemNum(4);
+        cart.setCartItemPrice(58L);
+        cartMapper.insertIntoCart(cart);
+    }
+    @Test
+    public void testUpdateCartItemNumByCid() {
+        cartMapper.updateCartItemNumByCid(1, 5);
+    }
+    @Test
+    public void testSelectByUidAndPid() {
+        Cart cart = cartMapper.selectByUidAndPid(1, 1);
+        System.out.println(cart);
     }
 
+    @Test
+    public void testSelectProductById() {
+        Product product = productMapper.selectById(1);
+        System.out.println(product);
+    }
+    
+    @Test
+    public void testInsertCart() {
+        cartService.insertIntoCart(1,1,2);
+    }
 }
