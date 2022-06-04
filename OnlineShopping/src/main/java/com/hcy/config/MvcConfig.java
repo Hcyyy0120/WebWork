@@ -24,29 +24,27 @@ public class MvcConfig implements WebMvcConfigurer {
     
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(userLoginHandlerInterceptor())
-                .addPathPatterns("/**")
+        registry.addInterceptor(loginHandlerInterceptor())
+                .addPathPatterns("/**")//需要拦截的页面
                 .excludePathPatterns("/pages/index.html",
-                        "/user/reg", "/user/check",
-                        "/user/login/*","/css/**",
-                        "/js/**", "/img/**",
-                        "/plugins/**","/seller/login",
-                        "/seller/reg");
-        
-        registry.addInterceptor(sellerLoginHandlerInterceptor())
-                .addPathPatterns("/**")
-                .excludePathPatterns("/pages/index.html",
-                        "/css/**","/js/**","/img/**",
-                        "/plugins/**");
+                        "/user/reg", "/user/check", "/user/login/*",
+                        "/seller/login", "/seller/reg",
+                        "/css/**", "/js/**", "/img/**", "/plugins/**");//用户或商家在没登录时可以访问的页面
+    
+        registry.addInterceptor(userPermissionHandlerInterceptor())
+                .addPathPatterns("/pages/manage.html","/product/seller",
+                        "/product/delete","/product/insert", "/product/update");//对于用户来说需要拦截的页面
     }
     
     
     @Bean
-    public UserLoginHandlerInterceptor userLoginHandlerInterceptor() {
-        return new UserLoginHandlerInterceptor();
+    public LoginHandlerInterceptor loginHandlerInterceptor() {
+        return new LoginHandlerInterceptor();
     }
     
-    public SellerLoginHandlerInterceptor sellerLoginHandlerInterceptor() {
-        return new SellerLoginHandlerInterceptor();
+    @Bean
+    public UserPermissionHandlerInterceptor userPermissionHandlerInterceptor() {
+        return new UserPermissionHandlerInterceptor();
     }
+
 }
