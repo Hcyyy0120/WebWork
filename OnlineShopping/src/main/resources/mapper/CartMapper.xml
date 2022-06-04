@@ -32,4 +32,14 @@
     <select id="selectByUidAndPid" resultType="com.hcy.pojo.Cart">
         select * from t_cart where uid=#{uid} and pid=#{pid}
     </select>
+    
+    <select id="selectCartVoByUid" resultType="com.hcy.pojo.vo.CartVo">
+        select
+            cid, uid, pid, t_cart.cart_item_price, t_cart.cart_item_num,
+            t_product.title
+        from
+            t_cart join t_product on t_cart.pid = t_product.id
+        where
+            uid = #{uid}
+    </select>
 </mapper>

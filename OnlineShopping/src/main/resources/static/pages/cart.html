@@ -180,7 +180,7 @@
                         <template>
                             <el-table
                                     ref="multipleTable"
-                                    :data="tableData"
+                                    :data="cartTableData"
                                     tooltip-effect="dark"
                                     style="width: 100%"
                                     @selection-change="handleSelectionChange">
@@ -191,7 +191,7 @@
                                         header-align="center">
                                 </el-table-column>
                                 <el-table-column
-                                        prop="cartItemName"
+                                        prop="title"
                                         label="商品"
                                         width="250"
                                         align="center"
@@ -212,15 +212,18 @@
                                         align="center"
                                         header-align="center">
                                     <template slot-scope="scope">
-                                        <el-input-number v-model="cartItemNum" :min="1" :max="10" size="large"></el-input-number>
+                                        <el-input-number v-model="scope.row.cartItemNum" :min="1" :max="99" size="large"></el-input-number>
                                     </template>
                                 </el-table-column>
+                                <!--prop="cartItemTotalPrice"-->
                                 <el-table-column
-                                        prop="cartItemTotalPrice"
                                         label="总金额"
                                         width="250"
                                         align="center"
                                         header-align="center">
+                                    <template slot-scope="scope">
+                                        <span>{{scope.row.cartItemNum*scope.row.cartItemPrice}}</span>
+                                    </template>
                                 </el-table-column>
                                 <el-table-column
                                         label="操作"
@@ -233,7 +236,7 @@
                                 </el-table-column>
                             </el-table>
                             <div style="margin-top: 20px">
-                                <el-button @click="toggleSelection(tableData)">全选
+                                <el-button @click="toggleSelection(cartTableData)">全选
                                 </el-button>
                                 <el-button @click="toggleSelection()">取消选择</el-button>
                             </div>
@@ -263,10 +266,12 @@
             el: "#app",
             data() {
                 return {
-                    tableData: [{
-                        date: '2016-05-03',
-                        name: '王小虎',
-                        address: '上海市普陀区金沙江路 1518 弄'
+                    cartTableData: [{
+                        title:'',
+                        cartItemPrice:'',
+                        cartItemNum: '',
+                        cartItemTotalPrice:'',
+                        
                     }],
                     cartItemNum:1,
                     multipleSelection: [],
@@ -277,11 +282,20 @@
             },
             
             mounted() {
-                //this.selectAll();
+                this.showCartList();
                 this.getClientInfo();
             },
             
             methods: {
+                showCartList() {
+                    var _this = this;
+                    axios({
+                        method: "get",
+                        url: "http://localhost:8080/cart/select"
+                    }).then(function (res) {
+                        _this.cartTableData = res.data;
+                    })
+                },
                 toggleSelection(rows) {
                     if (rows) {
                         rows.forEach(row => {

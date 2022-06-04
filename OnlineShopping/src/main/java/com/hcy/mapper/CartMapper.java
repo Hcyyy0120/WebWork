@@ -2,7 +2,10 @@ package com.hcy.mapper;
 
 import com.hcy.pojo.Cart;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.hcy.pojo.vo.CartVo;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
 * @author 16691
@@ -31,6 +34,11 @@ public interface CartMapper extends BaseMapper<Cart> {
      * 根据用户的id和商品的id来查询购物车的数据
      */
     Cart selectByUidAndPid(Integer uid, Integer pid);
+    
+    /**
+     * 通过用户uid查询购物车信息
+     */
+    List<CartVo> selectCartVoByUid(Integer uid);
 
 }
 

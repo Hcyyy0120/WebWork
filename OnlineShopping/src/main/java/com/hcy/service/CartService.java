@@ -2,6 +2,9 @@ package com.hcy.service;
 
 import com.hcy.pojo.Cart;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.hcy.pojo.vo.CartVo;
+
+import java.util.List;
 
 /**
 * @author 16691
@@ -16,4 +19,11 @@ public interface CartService extends IService<Cart> {
      * @param pid 商品id
      */
     void insertIntoCart(Integer uid, Integer pid);
+    
+    /**
+     * 通过用户uid查询购物车信息
+     * @param uid
+     * @return
+     */
+    List<CartVo> selectCartVoByUid(Integer uid);
 }

@@ -10,6 +10,7 @@ import com.hcy.pojo.Cart;
 import com.hcy.pojo.Product;
 import com.hcy.pojo.Seller;
 import com.hcy.pojo.User;
+import com.hcy.pojo.vo.CartVo;
 import com.hcy.pojo.vo.ProductVo;
 import com.hcy.service.CartService;
 import org.junit.jupiter.api.Test;
@@ -67,5 +68,11 @@ class OnlineShoppingTests {
     @Test
     public void testInsertCart() {
         cartService.insertIntoCart(1,1);
+    }
+    
+    @Test
+    public void testSelectCartVo() {
+        List<CartVo> cartVos = cartMapper.selectCartVoByUid(1);
+        System.out.println(cartVos);
     }
 }
