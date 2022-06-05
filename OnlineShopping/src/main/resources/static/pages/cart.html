@@ -218,6 +218,9 @@
                                 <el-button @click="toggleSelection()">取消选择</el-button>
                                 <span style="margin-left: 750px">已选商品 {{getCartCount()}} 件 - 总价 {{getCartPrice()}} 元</span>
                             </div>
+                            <br/>
+                            <el-button style="margin-left: 1000px" type="primary" :loading="true">结算</el-button>
+                            <p></p>
                         </template>
                     
                     
