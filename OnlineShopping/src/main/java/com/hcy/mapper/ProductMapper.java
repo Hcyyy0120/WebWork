@@ -78,6 +78,13 @@ public interface ProductMapper extends BaseMapper<Product> {
             "title = #{title},sell_point = #{sellPoint},price = #{price},num = #{num} where id = #{id}")
     void updateProductById(ProductVo productVo);
     
+    /**
+     * 修改商品的库存
+     * @param id
+     */
+    @Update("update t_product set num = #{num} where id = #{id}")
+    void updateProductNumById(Integer id,Integer num);
+    
 }
 
 

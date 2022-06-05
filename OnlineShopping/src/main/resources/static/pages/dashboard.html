@@ -37,6 +37,10 @@
                     opacity: 1
                 }
             }
+            .el-carousel__item img{
+                width: 100%;
+                height: 100%;
+            }
 
             .chartjs-render-monitor {
                 -webkit-animation: chartjs-render-animation 0.001s;
@@ -79,7 +83,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-                        <div class="sidebar-sticky">
+                        <div class="sidebar-sticky" style="position: fixed">
                             <ul class="nav flex-column">
                                 <li class="nav-item">
                                     <a class="nav-link active" href="http://localhost:8080/pages/dashboard.html">
@@ -149,9 +153,37 @@
                                 <div style="position:absolute;width:200%;height:200%;left:0; top:0"></div>
                             </div>
                         </div>
-                        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+<!--                        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
                             <h1 class="h2">商城</h1>
-                        </div>
+                        </div>-->
+                        <template>
+                            <el-carousel :interval="4000" type="card" height="250px">
+                                <el-carousel-item v-for="item in imageBox" :key="item.id">
+                                    <img :src="item.idView" class="image">
+                                </el-carousel-item>
+                            </el-carousel>
+                        </template>
+                        
+                        <style>
+                           /* .el-carousel__container {
+                                width: 200px !important;
+                                height: 200px !important;
+                            }*/
+                            .el-carousel__item h3 {
+                                color: #475669;
+                                font-size: 14px;
+                                opacity: 0.75;
+                                line-height: 200px;
+                                margin: 0;
+                            }
+                            .el-carousel__item:nth-child(2n) {
+                                background-color: #99a9bf;
+                            }
+
+                            .el-carousel__item:nth-child(2n+1) {
+                                background-color: #d3dce6;
+                            }
+                        </style>
                         
                         <!--搜索框-->
                         <el-form :inline="true" :model="formInline" class="demo-form-inline">
@@ -293,10 +325,18 @@
                         clientName: '',
                         id: ''
                     },
-                    
+                    imageBox:[
+                        {id:0,idView:'../img/1.jpg'},
+                        {id:1,idView:'../img/2.jpg'},
+                        {id:2,idView:'../img/3.jpg'},
+                        {id:3,idView:'../img/4.jpg'},
+                        {id:4,idView:'../img/5.jpg'},
+                        {id:5,idView:'../img/6.jpg'}
+                    ],
                 }
             },
             mounted() {
+
                 this.selectAll();
                 this.getClientInfo();
             },

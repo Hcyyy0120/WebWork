@@ -34,19 +34,21 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements Ca
     @Override
     public void insertIntoCart(Integer uid, Integer pid) {
         Cart result = cartMapper.selectByUidAndPid(uid, pid);
+        Product product = productMapper.selectById(pid);
         if (result == null) {
             Cart cart = new Cart();
             cart.setPid(pid);
             cart.setUid(uid);
     
             //补全价格
-            Product product = productMapper.selectById(pid);
             cart.setCartItemPrice(product.getPrice());
             cartMapper.insertIntoCart(cart);
         } else {//若购物车里已存在该商品
             Integer num = result.getCartItemNum() + 1;
             cartMapper.updateCartItemNumByCid(result.getCid(),num);
         }
+        Integer num = product.getNum()-1;
+        productMapper.updateProductNumById(pid,num);
     }
     
     /**

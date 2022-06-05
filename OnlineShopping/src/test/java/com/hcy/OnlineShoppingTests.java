@@ -86,4 +86,9 @@ class OnlineShoppingTests {
     public void testDeleteByCid() {
         cartMapper.deleteByCid(7);
     }
+    
+    @Test
+    public void testUpdateProductNumById() {
+        productMapper.updateProductNumById(1,8888);
+    }
 }

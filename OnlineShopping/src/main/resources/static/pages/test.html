@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+        <!-- 引入样式 -->
+        <link rel="stylesheet" href="../plugins/elementui/index.css">
+        <link rel="stylesheet" href="../plugins/font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" href="../css/style.css">
+        <script src="../js/vue.js"></script>
+        <script src="../plugins/elementui/index.js"></script>
+        <script type="text/javascript" src="../js/jquery.min.js"></script>
+        <script src="../js/axios-0.18.0.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            
+            <template>
+                <el-carousel :interval="4000" type="card" height="200px">
+                    <el-carousel-item v-for="item in imageBox" :key="item.id">
+                        <img :src="item.idView" class="image">
+                    </el-carousel-item>
+                </el-carousel>
+            </template>
+            
+            <style>
+                .el-carousel__item img{
+                    width: 100%;
+                }
+
+                .el-carousel__container {
+                    width: 200px !important;
+                    height: 200px !important;
+                }
+
+                .el-carousel__item h3 {
+                    color: #475669;
+                    font-size: 14px;
+                    opacity: 0.75;
+                    line-height: 200px;
+                    margin: 0;
+                }
+
+                .el-carousel__item:nth-child(2n) {
+                    background-color: #99a9bf;
+                }
+
+                .el-carousel__item:nth-child(2n+1) {
+                    background-color: #d3dce6;
+                }
+            </style>
+        </div>
+    </body>
+    <script>
+        var vue = new Vue({
+            el: "#app",
+            data() {
+                return {
+                    imageBox: [
+                        {id: 0, idView: '../img/1.jpg'},
+                        {id: 1, idView: '../img/2.jpg'},
+                        {id: 2, idView: '../img/3.jpg'},
+                        {id: 3, idView: '../img/4.jpg'},
+                        {id: 4, idView: '../img/5.jpg'},
+                        {id: 5, idView: '../img/6.jpg'}
+                    ],
+                }
+            },
+        })
+    </script>
+</html>
