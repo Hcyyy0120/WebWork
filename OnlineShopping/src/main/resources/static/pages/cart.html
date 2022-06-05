@@ -212,7 +212,9 @@
                                         align="center"
                                         header-align="center">
                                     <template slot-scope="scope">
-                                        <el-input-number v-model="scope.row.cartItemNum" :min="1" :max="99" size="large"></el-input-number>
+                                        <el-input-number v-model="scope.row.cartItemNum" :min="1"
+                                                         :max="99" size="large"
+                                                         @change="handleChange(scope.row.cid,scope.row.cartItemNum)"></el-input-number>
                                     </template>
                                 </el-table-column>
                                 <!--prop="cartItemTotalPrice"-->
@@ -222,7 +224,8 @@
                                         align="center"
                                         header-align="center">
                                     <template slot-scope="scope">
-                                        <span>{{scope.row.cartItemNum*scope.row.cartItemPrice}}</span>
+                                        <!--<span>{{scope.row.cartItemNum*scope.row.cartItemPrice}}</span>-->
+                                        <span>{{getCartItemTotalPrice(scope.row.cartItemNum, scope.row.cartItemPrice)}}</span>
                                     </template>
                                 </el-table-column>
                                 <el-table-column
@@ -231,7 +234,8 @@
                                         align="center"
                                         header-align="center">
                                     <template slot-scope="scope">
-                                        <el-button type="text" size="medium">删除</el-button>
+                                        <el-button type="text" size="medium" @click="idDelete(scope.row.cid)">删除
+                                        </el-button>
                                     </template>
                                 </el-table-column>
                             </el-table>
@@ -239,6 +243,7 @@
                                 <el-button @click="toggleSelection(cartTableData)">全选
                                 </el-button>
                                 <el-button @click="toggleSelection()">取消选择</el-button>
+                                <span style="margin-left: 750px">已选商品 {{getCartCount()}} 件 - 总价 {{getCartPrice()}} 元</span>
                             </div>
                         </template>
                     
@@ -267,14 +272,14 @@
             data() {
                 return {
                     cartTableData: [{
-                        title:'',
-                        cartItemPrice:'',
+                        cid: '',
+                        title: '',
+                        cartItemPrice: '',
                         cartItemNum: '',
-                        cartItemTotalPrice:'',
-                        
                     }],
-                    cartItemNum:1,
+                    cartItemNum: 1,
                     multipleSelection: [],
+                    copyCartItemNum: 1,
                     client: {
                         clientName: ''
                     },
@@ -287,6 +292,54 @@
             },
             
             methods: {
+                getCartCount() {
+                    return this.multipleSelection.length;
+                },
+                getCartPrice() {
+                    let totalPrice = 0;
+                    for (let i = 0; i < this.multipleSelection.length; i++) {
+                        totalPrice += this.multipleSelection[i].cartItemNum * this.multipleSelection[i].cartItemPrice;
+                    }
+                    return totalPrice;
+                },
+                idDelete(row) {
+                    this.$confirm('此商品将移出购物车', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        this.deleteCartItemById(row);
+                        this.$message({
+                            type: 'success',
+                            message: '删除成功!'
+                        });
+                        window.location.reload();
+                    }).catch(() => {
+                        this.$message({
+                            type: 'info',
+                            message: '已取消删除'
+                        });
+                    });
+                },
+                deleteCartItemById(cid) {
+                    var _this = this;
+                    axios({
+                        method: "post",
+                        url: "http://localhost:8080/cart/delete/" + cid,
+                        data: cid
+                    })
+                },
+                handleChange(cid, num) {
+                    var _this = this;
+                    //this.copyCartItemNum = num;
+                    axios({
+                        method: "post",
+                        url: "http://localhost:8080/cart/update/" + cid + "/" + num
+                    })
+                },
+                getCartItemTotalPrice(num, price) {//获取某个商品的总价
+                    return num * price;
+                },
                 showCartList() {
                     var _this = this;
                     axios({

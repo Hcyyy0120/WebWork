@@ -75,4 +75,15 @@ class OnlineShoppingTests {
         List<CartVo> cartVos = cartMapper.selectCartVoByUid(1);
         System.out.println(cartVos);
     }
+    
+    @Test
+    public void testFindByCid() {
+        Cart cart = cartMapper.selectByCid(1);
+        System.out.println(cart);
+    }
+    
+    @Test
+    public void testDeleteByCid() {
+        cartMapper.deleteByCid(7);
+    }
 }

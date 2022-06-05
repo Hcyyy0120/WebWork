@@ -26,4 +26,15 @@ public interface CartService extends IService<Cart> {
      * @return
      */
     List<CartVo> selectCartVoByUid(Integer uid);
+    
+    /**
+     * 通过cid修改购物车商品数量
+     * @param cid
+     */
+    Integer updateCartItemNumByCid(Integer cid,Integer num);
+    
+    /**
+     * 通过cid删除购物车的商品
+     */
+    void deleteByCid(Integer cid);
 }

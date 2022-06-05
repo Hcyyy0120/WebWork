@@ -58,6 +58,24 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements Ca
     public List<CartVo> selectCartVoByUid(Integer uid) {
         return cartMapper.selectCartVoByUid(uid);
     }
+    
+    /**
+     * 修改购物车商品数量
+     * @param cid
+     */
+    @Override
+    public Integer updateCartItemNumByCid(Integer cid,Integer num) {
+        Cart result = cartMapper.selectByCid(cid);//是否能查找到
+        cartMapper.updateCartItemNumByCid(result.getCid(),num);
+        return num;
+    }
+    
+    @Override
+    public void deleteByCid(Integer cid) {
+        cartMapper.deleteByCid(cid);
+    }
+    
+    
 }
 
 

@@ -14,7 +14,8 @@
     </resultMap>
     
     <sql id="Base_Column_List">
-        cid,uid,pid,
+        cid
+        ,uid,pid,
         cart_item_price,cart_item_num,cart_item_state
     </sql>
     
@@ -27,19 +28,39 @@
         update t_cart
         set cart_item_num = #{cartItemNum}
         where cid = #{cid}
+          and cart_item_state = 0
     </update>
     
+    
     <select id="selectByUidAndPid" resultType="com.hcy.pojo.Cart">
-        select * from t_cart where uid=#{uid} and pid=#{pid}
+        select *
+        from t_cart
+        where uid = #{uid}
+          and pid = #{pid}
+          and cart_item_state = 0
     </select>
     
     <select id="selectCartVoByUid" resultType="com.hcy.pojo.vo.CartVo">
-        select
-            cid, uid, pid, t_cart.cart_item_price, t_cart.cart_item_num,
-            t_product.title
-        from
-            t_cart join t_product on t_cart.pid = t_product.id
-        where
-            uid = #{uid}
+        select cid,
+               uid,
+               pid,
+               t_cart.cart_item_price,
+               t_cart.cart_item_num,
+               t_product.title
+        from t_cart
+                 join t_product on t_cart.pid = t_product.id
+        where uid = #{uid} and cart_item_state = 0
     </select>
+    
+    <select id="selectByCid" resultType="com.hcy.pojo.Cart">
+        select *
+        from t_cart
+        where cid = #{cid} and cart_item_state = 0
+    </select>
+    
+    <delete id="deleteByCid">
+        delete
+        from t_cart
+        where cid = #{cid} and cart_item_state = 0
+    </delete>
 </mapper>

@@ -39,6 +39,19 @@ public interface CartMapper extends BaseMapper<Cart> {
      * 通过用户uid查询购物车信息
      */
     List<CartVo> selectCartVoByUid(Integer uid);
+    
+    /**
+     * 根据cid的值来查询当前的购物车这条数据是否存在
+     * @param cid
+     * @return
+     */
+    Cart selectByCid(Integer cid);
+    
+    /**
+     * 根据cid删除购物车中商品数据
+     * @param cid
+     */
+    void deleteByCid(Integer cid);
 
 }
 

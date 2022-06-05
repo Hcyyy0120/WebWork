@@ -27,4 +27,14 @@ public class CartController {
         User user = (User)session.getAttribute("user");
         return cartService.selectCartVoByUid(user.getUid());
     }
+    
+    @PostMapping("/update/{cid}/{num}")
+    public void updateCartItemNumByCid(@PathVariable("cid") Integer cid,@PathVariable("num") Integer num) {
+        cartService.updateCartItemNumByCid(cid,num);
+    }
+    
+    @PostMapping("/delete/{cid}")
+    public void deleteCartItemByCid(@PathVariable("cid") Integer cid) {
+        cartService.deleteByCid(cid);
+    }
 }
