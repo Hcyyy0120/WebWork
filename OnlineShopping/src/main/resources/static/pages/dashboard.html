@@ -106,7 +106,9 @@
                                             <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
                                             <polyline points="13 2 13 9 20 9"></polyline>
                                         </svg>
-                                        购物车
+                                        <el-badge :value="clickCount" class="item">
+                                            购物车
+                                        </el-badge>
                                     </a>
                                 </li>
                                 <li class="nav-item">
@@ -333,10 +335,11 @@
                         {id:4,idView:'../img/5.jpg'},
                         {id:5,idView:'../img/6.jpg'}
                     ],
+                    clickCount:0,
                 }
             },
             mounted() {
-
+                this.clickCount = 0;
                 this.selectAll();
                 this.getClientInfo();
             },
@@ -349,6 +352,7 @@
                     });
                 },
                 addIntoCart(row) {
+                    this.clickCount += 1;
                     this.tableData = row;
                     var _this = this;
                     axios({

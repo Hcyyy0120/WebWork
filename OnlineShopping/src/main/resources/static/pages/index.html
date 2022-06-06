@@ -218,7 +218,8 @@
                     rememberMeStatus: 0,
                     showUserReg: false,
                     showSellerReg: false,
-                    dialogFormVisible: false
+                    dialogFormVisible: false,
+                    clickCount:0
                 };
             },
             
@@ -299,7 +300,8 @@
                     })
                 },
                 rememberMe() {
-                    if (document.getElementById("autoLogin")) {
+                    this.clickCount += 1;//document.getElementById("autoLogin")
+                    if (this.clickCount % 2 != 0) {
                         this.rememberMeStatus = 1;
                     } else {
                         this.rememberMeStatus = 0;
