@@ -22,7 +22,7 @@ public interface OrderMapper extends BaseMapper<Order> {
      */
     Integer insertOrder(Order order);
     
-    List<OrderVo> selectOrderVoByOid(Integer oid);
+    List<OrderVo> selectOrderVoByUid(Integer uid);
     
 }
 

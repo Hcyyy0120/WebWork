@@ -15,6 +15,7 @@ public interface CartService extends IService<Cart> {
     
     /**
      * 添加商品到购物车
+     *
      * @param uid 用户id
      * @param pid 商品id
      */
@@ -22,6 +23,7 @@ public interface CartService extends IService<Cart> {
     
     /**
      * 通过用户uid查询购物车信息
+     *
      * @param uid
      * @return
      */
@@ -29,12 +31,16 @@ public interface CartService extends IService<Cart> {
     
     /**
      * 通过cid修改购物车商品数量
+     *
      * @param cid
      */
-    Integer updateCartItemNumByCid(Integer cid,Integer num);
+    Integer updateCartItemNumByCid(Integer cid, Integer num);
     
     /**
      * 通过cid删除购物车的商品
      */
     void deleteByCid(Integer cid);
+    
+    void updateCartItemStateByCid(Integer cids[]);
+    
 }

@@ -42,7 +42,6 @@ public class UserController {
             if ("1".equals(isRemembered)) {
                 userService.rememberUser(response, checkUser);
             }
-            
             session.setAttribute("user", checkUser);
             map.put("status", true);
             //map.put("message", "登录成功,点击确定跳转到主页");

@@ -30,7 +30,7 @@ public class OrderController {
     
     @GetMapping("/select")
     public List<OrderVo> selectOrderVo(HttpSession session) {
-        Integer oid = (Integer)session.getAttribute("oid");
-        return orderService.selectOrderVoByOid(oid);
+        User user = (User)session.getAttribute("user");
+        return orderService.selectOrderVoByUid(user.getUid());
     }
 }

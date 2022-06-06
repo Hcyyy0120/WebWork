@@ -49,18 +49,27 @@
                t_product.title
         from t_cart
                  join t_product on t_cart.pid = t_product.id
-        where uid = #{uid} and cart_item_state = 0
+        where uid = #{uid}
+          and cart_item_state = 0
     </select>
     
     <select id="selectByCid" resultType="com.hcy.pojo.Cart">
         select *
         from t_cart
-        where cid = #{cid} and cart_item_state = 0
+        where cid = #{cid}
+          and cart_item_state = 0
     </select>
     
     <delete id="deleteByCid">
         delete
         from t_cart
-        where cid = #{cid} and cart_item_state = 0
+        where cid = #{cid}
+          and cart_item_state = 0
     </delete>
+    
+    <update id="updateCartItemStateByCid">
+        update t_cart
+        set cart_item_state = 1
+        where cid = #{cid}
+    </update>
 </mapper>

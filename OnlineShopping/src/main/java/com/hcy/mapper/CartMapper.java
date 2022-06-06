@@ -52,6 +52,12 @@ public interface CartMapper extends BaseMapper<Cart> {
      * @param cid
      */
     void deleteByCid(Integer cid);
+    
+    /**
+     * 根据cid修改购物车商品状态
+     * @param cid
+     */
+    void updateCartItemStateByCid(Integer cid);
 
 }
 

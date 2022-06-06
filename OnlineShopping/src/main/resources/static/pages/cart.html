@@ -174,7 +174,7 @@
                                         width="250"
                                         align="center"
                                         header-align="center"
-                                        show-overflow-tooltip="true">
+                                        show-overflow-tooltip=true>
                                 </el-table-column>
                                 <el-table-column
                                         prop="cartItemPrice"
@@ -252,6 +252,7 @@
                 return {
                     cartTableData: [{
                         cid: '',
+                        pid:'',
                         title: '',
                         cartItemPrice: '',
                         cartItemNum: '',
@@ -264,7 +265,12 @@
                     client: {
                         clientName: ''
                     },
-                    oid:''
+                    oid:'',
+                    arr:[],
+                    updateProductData:{
+                        id:[],
+                        num:[]
+                    }
                 }
             },
             
@@ -284,7 +290,37 @@
                         url: "http://localhost:8080/order/create"
                     }).then(function (res) {
                         _this.oid = res.data.oid;
+                        _this.updateState();
+                        _this.updateProductNumAndState();
                         _this.addSuccess();
+                    })
+                },
+                updateState() {
+                    var _this = this;
+                    //修改商品库存
+                    //修改购物车商品状态cart_item_state为1
+                    for (let i = 0; i < this.cartTableData.length; i++) {
+                        this.arr[i] = this.cartTableData[i].cid;
+                    }
+                    axios({
+                        method: "post",
+                        url: "http://localhost:8080/cart/updatestate",
+                        data: _this.arr
+                    })
+                },
+                updateProductNumAndState() {
+                    var _this = this;
+                    for (let i = 0; i < this.cartTableData.length; i++) {
+                        this.updateProductData.id[i] = this.cartTableData[i].pid;
+                        this.updateProductData.num[i] = this.cartTableData[i].cartItemNum;
+                    }
+                    axios({
+                        method: "post",
+                        url: "http://localhost:8080/product/updateNumAndState",
+                        data: _this.updateProductData
+                    }).then(function () {
+                        console.log(_this.updateProductData.id);
+                        console.log(_this.updateProductData.num);
                     })
                 },
                 getCartCount() {

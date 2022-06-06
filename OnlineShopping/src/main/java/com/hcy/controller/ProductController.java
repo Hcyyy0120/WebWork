@@ -1,11 +1,13 @@
 package com.hcy.controller;
 
 import com.hcy.pojo.Product;
+import com.hcy.pojo.dto.ProductDto;
 import com.hcy.pojo.vo.ProductVo;
 import com.hcy.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -71,5 +73,14 @@ public class ProductController {
     @PostMapping("/update")
     public void updateProductById(@RequestBody ProductVo productVo) {
         productService.updateProductById(productVo);
+    }
+    
+    @PostMapping("/updateNumAndState")
+    public void updateProductNumAndState(@RequestBody ProductDto productDto) {
+        Integer[] id = productDto.getId();
+        Integer[] num = productDto.getNum();
+        System.out.println("=============" + Arrays.toString(id));
+        System.out.println("=============" + Arrays.toString(num));
+        productService.updateProductNumAndStateById(id,num);
     }
 }

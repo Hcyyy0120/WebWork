@@ -51,6 +51,16 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
         productMapper.updateProductById(productVo);
     }
     
+    @Override
+    public void updateProductNumAndStateById(Integer[] id, Integer[] num) {
+        for (int i = 0; i < id.length; i++) {
+            Product product = productMapper.selectById(id[i]);
+            Integer beforeNum = product.getNum();
+            Integer afterNum = beforeNum - num[i];
+            productMapper.updateProductNumAndStateById(id[i],afterNum);
+        }
+    }
+    
     
 }
 

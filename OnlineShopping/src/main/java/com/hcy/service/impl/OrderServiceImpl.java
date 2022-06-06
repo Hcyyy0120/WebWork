@@ -71,8 +71,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     }
     
     @Override
-    public List<OrderVo> selectOrderVoByOid(Integer oid) {
-        return orderMapper.selectOrderVoByOid(oid);
+    public List<OrderVo> selectOrderVoByUid(Integer uid) {
+        return orderMapper.selectOrderVoByUid(uid);
     }
     
 }

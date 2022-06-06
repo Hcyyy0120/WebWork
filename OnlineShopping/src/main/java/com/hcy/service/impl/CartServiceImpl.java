@@ -72,9 +72,24 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements Ca
         return num;
     }
     
+    /**
+     * 根据cid删除购物车中的商品
+     * @param cid
+     */
     @Override
     public void deleteByCid(Integer cid) {
         cartMapper.deleteByCid(cid);
+    }
+    
+    /**
+     * 根据cid修改购物车商品状态
+     * @param cids
+     */
+    @Override
+    public void updateCartItemStateByCid(Integer[] cids) {
+        for (int i = 0; i < cids.length; i++) {
+            cartMapper.updateCartItemStateByCid(cids[i]);
+        }
     }
     
     

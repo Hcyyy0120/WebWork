@@ -37,4 +37,9 @@ public class CartController {
     public void deleteCartItemByCid(@PathVariable("cid") Integer cid) {
         cartService.deleteByCid(cid);
     }
+    
+    @PostMapping("/updatestate")
+    public void updateCartItemSateByCid(@RequestBody Integer[] cids) {
+        cartService.updateCartItemStateByCid(cids);
+    }
 }

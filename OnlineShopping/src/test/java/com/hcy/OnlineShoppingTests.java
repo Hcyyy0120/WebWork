@@ -89,10 +89,6 @@ class OnlineShoppingTests {
         cartMapper.deleteByCid(7);
     }
     
-    @Test
-    public void testUpdateProductNumById() {
-        productMapper.updateProductNumById(1,8888);
-    }
     
     @Test
     public void testSelectByUid() {
@@ -108,7 +104,17 @@ class OnlineShoppingTests {
     
     @Test
     public void testSelectOrderByOid() {
-        List<OrderVo> orderVos = orderMapper.selectOrderVoByOid(1);
+        List<OrderVo> orderVos = orderMapper.selectOrderVoByUid(1);
         System.out.println(orderVos);
+    }
+    
+    @Test
+    public void testUpdateCartItemState() {
+        cartMapper.updateCartItemStateByCid(1);
+    }
+    
+    @Test
+    public void testUpdateProductNumAndStateById() {
+        productMapper.updateProductNumAndStateById(1,8888);
     }
 }

@@ -24,4 +24,6 @@ public interface ProductService extends IService<Product> {
     void insertProduct(ProductVo productVo);
     
     void updateProductById(ProductVo productVo);
+    
+    void updateProductNumAndStateById(Integer[] id,Integer[] num);
 }

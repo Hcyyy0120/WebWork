@@ -14,6 +14,6 @@ import java.util.List;
 public interface OrderService extends IService<Order> {
     Order createOrder(Integer uid);
     
-    List<OrderVo> selectOrderVoByOid(Integer oid);
+    List<OrderVo> selectOrderVoByUid(Integer uid);
     
 }
