@@ -22,7 +22,18 @@ public interface OrderMapper extends BaseMapper<Order> {
      */
     Integer insertOrder(Order order);
     
+    /**
+     * 显示订单列表（可能需要将参数uid改为oid）
+     * @param uid
+     * @return
+     */
     List<OrderVo> selectOrderVoByUid(Integer uid);
+    
+    /**
+     * 修改订单状态（使其不显示）
+     * @param oid
+     */
+    void updateOrderState(Integer oid);
     
 }
 

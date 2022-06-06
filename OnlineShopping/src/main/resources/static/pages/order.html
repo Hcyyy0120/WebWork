@@ -45,11 +45,8 @@
     </head>
     
     <body>
-        
         <div id="app">
-            
             <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
-                
                 <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">欢迎来到网上商城</a>
                 <input class="form-control form-control-dark w-100" type="text" placeholder="Search"
                        aria-label="Search">
@@ -255,10 +252,19 @@
             methods: {
                 pay() {
                     //this.loadingState = true;
+                    var _this = this;
                     const url = '../img/pay.jpg';
                     this.$alert('<img src = ' + url + '/>', '我是学生，打钱', {
+                        type:'info',
                         dangerouslyUseHTMLString: true
                     });
+                    axios({
+                        method: "post",
+                        url: "http://localhost:8080/order/update/" + _this.orderTableData[0].oid,
+                        data: _this.orderTableData[0].oid
+                    }).then(function () {
+                        //window.location.reload();
+                    })
                 },
                 showOrderList() {
                     var _this = this;
@@ -267,6 +273,7 @@
                         url: "http://localhost:8080/order/select"
                     }).then(function (res) {
                         _this.orderTableData = res.data;
+                        console.log("22222222" + _this.orderTableData[0].oid);
                     })
                 },
                 clearCookie() {

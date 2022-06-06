@@ -23,7 +23,7 @@
         insert into t_order (uid, recv_name, total_price)
         values (#{uid}, #{recvName}, #{totalPrice})
     </insert>
-    
+
     <!--    <select id="selectOrderVoByOid" resultType="com.hcy.pojo.vo.OrderVo">
             SELECT
                 t_order.recv_name,
@@ -49,7 +49,8 @@
         </select>-->
     
     <select id="selectOrderVoByUid" resultType="com.hcy.pojo.vo.OrderVo">
-        SELECT t_order.recv_name,
+        SELECT t_order.oid,
+               t_order.recv_name,
                t_product.seller_name,
                t_order_item.title,
                t_order_item.num,
@@ -62,4 +63,9 @@
           and t_order.status = 0
         order by t_product.seller_name
     </select>
+    
+    <update id="updateOrderState">
+        update t_order set status = 1 where oid = #{oid}
+    </update>
+
 </mapper>

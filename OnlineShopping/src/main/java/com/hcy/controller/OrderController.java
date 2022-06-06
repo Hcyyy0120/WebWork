@@ -6,10 +6,7 @@ import com.hcy.pojo.User;
 import com.hcy.pojo.vo.OrderVo;
 import com.hcy.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -40,4 +37,11 @@ public class OrderController {
         User user = (User)session.getAttribute("user");
         return orderService.selectOrderVoByUid(user.getUid());
     }
+    
+    @PostMapping("/update/{oid}")
+    public void updateOrderState(@PathVariable("oid") Integer oid) {
+        System.out.println("oidoidoidoidoidoid" + oid);
+        orderService.updateOrderState(oid);
+    }
+    
 }

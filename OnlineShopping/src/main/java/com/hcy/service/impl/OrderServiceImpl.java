@@ -75,6 +75,11 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         return orderMapper.selectOrderVoByUid(uid);
     }
     
+    @Override
+    public void updateOrderState(Integer oid) {
+        orderMapper.updateOrderState(oid);
+    }
+    
 }
 
 

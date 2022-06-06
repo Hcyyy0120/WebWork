@@ -117,4 +117,9 @@ class OnlineShoppingTests {
     public void testUpdateProductNumAndStateById() {
         productMapper.updateProductNumAndStateById(1,8888);
     }
+    
+    @Test
+    public void testUpdateOrderStatus() {
+        orderMapper.updateOrderState(1);
+    }
 }

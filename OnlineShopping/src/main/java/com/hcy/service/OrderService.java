@@ -16,4 +16,5 @@ public interface OrderService extends IService<Order> {
     
     List<OrderVo> selectOrderVoByUid(Integer uid);
     
+    void updateOrderState(Integer oid);
 }
