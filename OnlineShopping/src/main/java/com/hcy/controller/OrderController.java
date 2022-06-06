@@ -20,6 +20,13 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
     
+    /**
+     * 有bug，不能选择购物车的部分商品进行结算（可以修复，但不是现在）
+     * 前端要改为gotoPay(multipleSelection)
+     * 传入multipleSelection--->选中的数据集合
+     * @param session
+     * @return
+     */
     @GetMapping("/create")
     public Order createOrder(HttpSession session) {
         User user = (User)session.getAttribute("user");

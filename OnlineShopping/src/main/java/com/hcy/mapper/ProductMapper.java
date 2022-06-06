@@ -22,7 +22,7 @@ public interface ProductMapper extends BaseMapper<Product> {
      * @param id
      * @return
      */
-    @Select("select * from t_product where id = #{id}")
+    @Select("select * from t_product where id = #{id} and status != 0")
     Product selectById(Integer id);
     
     /**
@@ -32,7 +32,7 @@ public interface ProductMapper extends BaseMapper<Product> {
     @Select("select t_product.id,t_product.item_type,t_product.title,t_product.sell_point,t_product.price," +
             "t_product.num,t_product.status,t_product.seller_name,t_product_category.type_name " +
             "from t_product,t_product_category " +
-            "where t_product.category_id = t_product_category.id and t_product.status = 1")
+            "where t_product.category_id = t_product_category.id and t_product.status != 0")
     List<ProductVo> getAllProductVo();
     
     /**
@@ -54,7 +54,7 @@ public interface ProductMapper extends BaseMapper<Product> {
     @Select("select t_product.id,t_product.item_type,t_product.title,t_product.sell_point,t_product.price," +
             "t_product.num,t_product.status,t_product.seller_name,t_product_category.type_name " +
             "from t_product,t_product_category " +
-            "where t_product.category_id = t_product_category.id and t_product.seller_name = #{sellerName} and t_product.status = 1")
+            "where t_product.category_id = t_product_category.id and t_product.seller_name = #{sellerName} and t_product.status != 0")
     List<ProductVo> selectAllProductVoBySeller(String sellerName);
     
     /**

@@ -59,7 +59,7 @@
             <if test="sellerName != null and sellerName != '' ">
                 and seller_name like "%" #{sellerName} "%"
             </if>
-            and status = 1
+            and status != 0
         </where>
     </select>
     
