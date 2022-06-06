@@ -37,21 +37,15 @@
                     opacity: 1
                 }
             }
-            .el-carousel__item img{
-                width: 100%;
-                height: 100%;
-            }
-
-            .chartjs-render-monitor {
-                -webkit-animation: chartjs-render-animation 0.001s;
-                animation: chartjs-render-animation 0.001s;
-            }
         </style>
     </head>
     
     <body>
+        
         <div id="app">
+            
             <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+                
                 <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">欢迎来到网上商城</a>
                 <input class="form-control form-control-dark w-100" type="text" placeholder="Search"
                        aria-label="Search">
@@ -106,9 +100,7 @@
                                             <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
                                             <polyline points="13 2 13 9 20 9"></polyline>
                                         </svg>
-                                        <el-badge :value="clickCount" class="item">
-                                            购物车
-                                        </el-badge>
+                                        购物车
                                     </a>
                                 </li>
                                 <li class="nav-item">
@@ -140,7 +132,7 @@
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="http://localhost:8080/pages/manage.html">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        <!--<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                              viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                              stroke-linecap="round" stroke-linejoin="round"
                                              class="feather feather-users">
@@ -148,16 +140,18 @@
                                             <circle cx="9" cy="7" r="4"></circle>
                                             <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
                                             <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                                        </svg>
+                                            
+                                        </svg>-->
+                                        <i class="el-icon-goods"></i>
                                         商家订单管理
                                     </a>
                                 </li>
                             </ul>
-                        
                         </div>
                     </nav>
                     
                     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+                        
                         <div class="chartjs-size-monitor"
                              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;">
                             <div class="chartjs-size-monitor-expand"
@@ -169,135 +163,12 @@
                                 <div style="position:absolute;width:200%;height:200%;left:0; top:0"></div>
                             </div>
                         </div>
-<!--                        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-                            <h1 class="h2">商城</h1>
-                        </div>-->
-                        <template>
-                            <el-carousel :interval="4000" type="card" height="250px">
-                                <el-carousel-item v-for="item in imageBox" :key="item.id">
-                                    <img :src="item.idView" class="image">
-                                </el-carousel-item>
-                            </el-carousel>
-                        </template>
+                        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+                            <h1 class="h2">订单管理</h1>
+                        </div>
                         
-                        <style>
-                           /* .el-carousel__container {
-                                width: 200px !important;
-                                height: 200px !important;
-                            }*/
-                            .el-carousel__item h3 {
-                                color: #475669;
-                                font-size: 14px;
-                                opacity: 0.75;
-                                line-height: 200px;
-                                margin: 0;
-                            }
-                            .el-carousel__item:nth-child(2n) {
-                                background-color: #99a9bf;
-                            }
-
-                            .el-carousel__item:nth-child(2n+1) {
-                                background-color: #d3dce6;
-                            }
-                        </style>
-                        
-                        <!--搜索框-->
-                        <el-form :inline="true" :model="formInline" class="demo-form-inline">
-                            <el-form-item label="商品名">
-                                <el-input v-model="formInline.title" placeholder="商品名"></el-input>
-                            </el-form-item>
-                            <el-form-item label="最低价">
-                                <el-input v-model="formInline.beginPrice" placeholder="0"></el-input>
-                            </el-form-item>
-                            <el-form-item label="最高价">
-                                <el-input v-model="formInline.endPrice" placeholder="99999"></el-input>
-                            </el-form-item>
-                            <el-form-item label="商品分类">
-                                <el-select v-model="formInline.typeName" placeholder="所有商品">
-                                    <el-option label="全部" value=""></el-option>
-                                    <el-option label="图书、音像" value="图书、音像"></el-option>
-                                    <el-option label="笔记本" value="笔记本"></el-option>
-                                    <el-option label="文件管理" value="文件管理"></el-option>
-                                    <el-option label="本册/便签" value="本册/便签"></el-option>
-                                    <el-option label="笔类" value="笔类"></el-option>
-                                    <el-option label="双肩包" value="双肩包"></el-option>
-                                </el-select>
-                            </el-form-item>
-                            <el-form-item>
-                                <el-button type="primary" @click="selectByCondition()">搜索</el-button>
-                            </el-form-item>
-                        </el-form>
-                        
-                        <!--商品列表-->
-                        <template>
-                            <el-table
-                                    :data="tableData"
-                                    height="500"
-                                    border
-                                    style="width: 100%">
-                                <el-table-column
-                                        prop="itemType"
-                                        label="商品类型"
-                                        width="180"
-                                        align="center"
-                                        header-align="center">
-                                </el-table-column>
-                                <el-table-column
-                                        prop="title"
-                                        label="商品名"
-                                        width="440"
-                                        align="center"
-                                        header-align="center">
-                                </el-table-column>
-                                <el-table-column
-                                        prop="price"
-                                        label="价格"
-                                        width="120"
-                                        align="center"
-                                        header-align="center">
-                                </el-table-column>
-                                <el-table-column
-                                        prop="num"
-                                        label="库存"
-                                        width="120"
-                                        align="center"
-                                        header-align="center">
-                                </el-table-column>
-                                <el-table-column
-                                        prop="sellerName"
-                                        label="商家名"
-                                        width="150"
-                                        align="center"
-                                        header-align="center">
-                                </el-table-column>
-                                <el-table-column
-                                        fixed="right"
-                                        label="操作"
-                                        width="200"
-                                        align="center"
-                                        header-align="center">
-                                    <template slot-scope="scope">
-                                        <!--<el-button @click="handleClick(scope.row)" type="text" size="medium ">查看
-                                        </el-button>-->
-                                        <el-popover
-                                                placement="bottom"
-                                                title="详情"
-                                                width="200"
-                                                trigger="hover">
-                                            <!--content=""
-                                            v-model="sellPoint"-->
-                                            {{scope.row.sellPoint}}
-                                            <el-button type="text" slot="reference">查看详情
-                                            </el-button>
-                                        </el-popover>
-                                        <el-button type="text" size="medium" :plain="true"
-                                                   @click="addIntoCart(scope.row)">添加至购物车
-                                        </el-button>
-                                    </template>
-                                </el-table-column>
-                            </el-table>
-                        </template>
-                    
+                        <!--商家订单管理-->
+                        <!--t_order的state也要修改为2-->
                     </main>
                 </div>
             </div>
@@ -321,62 +192,37 @@
             el: "#app",
             data() {
                 return {
-                    tableData: [{
-                        id: '',
-                        itemType: '',
-                        title: '',
-                        price: '',
-                        num: '',
-                        sellerName: '',
-                        sellPoint: ''
-                    }],
-                    formInline: {
-                        id: '',
-                        title: '',
-                        typeName: '',
-                        beginPrice: '',
-                        endPrice: '',
-                    },
                     client: {
-                        clientName: '',
-                        id: ''
-                    },
-                    imageBox:[
-                        {id:0,idView:'../img/1.jpg'},
-                        {id:1,idView:'../img/2.jpg'},
-                        {id:2,idView:'../img/3.jpg'},
-                        {id:3,idView:'../img/4.jpg'},
-                        {id:4,idView:'../img/5.jpg'},
-                        {id:5,idView:'../img/6.jpg'}
-                    ],
-                    clickCount:0,
+                        clientName: ''
+                    }
                 }
             },
+            
             mounted() {
-                this.clickCount = 0;
-                this.selectAll();
+                this.showCartList();
                 this.getClientInfo();
+                //this.loadingState = false;等商家确认后执行
             },
+            
             methods: {
-                addSuccess() {
-                    this.$message({
-                        showClose: true,
-                        message: '加入成功！',
-                        type: 'success'
+                idDelete(row) {
+                    this.$confirm('此商品将移出购物车', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        this.deleteCartItemById(row);
+                        this.$message({
+                            type: 'success',
+                            message: '删除成功!'
+                        });
+                        window.location.reload();
+                    }).catch(() => {
+                        this.$message({
+                            type: 'info',
+                            message: '已取消删除'
+                        });
                     });
-                },
-                addIntoCart(row) {
-                    this.clickCount += 1;
-                    this.tableData = row;
-                    var _this = this;
-                    axios({
-                        method: "post",
-                        url: "http://localhost:8080/cart/insert",
-                        data: _this.tableData
-                    }).then(function (res) {
-                        //window.location.reload();
-                        _this.addSuccess();
-                    })
                 },
                 clearCookie() {
                     var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
@@ -397,7 +243,7 @@
                             url: "http://localhost:8080/user/userLoginOut"
                         }).then(function (res) {
                             alert(res.data.message);
-                            _this.clearCookie();//删除所有cookie取消自动登录
+                            _this.clearCookie();//通过删除所有cookie来取消自动登录
                             window.location.reload();
                         })
                     } else {
@@ -418,11 +264,9 @@
                     }).then(function (res) {
                         if (res.data.userInfo != "not_exists") {
                             _this.client.clientName = "用户：" + res.data.userInfo;
-                            _this.client.id = res.data.userId;
                         } else {
                             _this.getSellerInfo();
                         }
-                        
                     })
                 },
                 getSellerInfo() {
@@ -432,31 +276,8 @@
                         url: "http://localhost:8080/seller/getSellerInfo"
                     }).then(function (res) {
                         _this.client.clientName = "商家：" + res.data.sellerInfo;
-                        _this.client.id = res.data.sellerId;
                     })
                 },
-                selectAll() {
-                    var _this = this;
-                    axios({
-                        method: "get",
-                        url: "http://localhost:8080/product/all"
-                    }).then(function (res) {
-                            _this.tableData = res.data
-                        }
-                    )
-                },
-                selectByCondition() {
-                    var _this = this;
-                    axios({
-                        method: "post",
-                        url: "http://localhost:8080/product/condition",
-                        data: _this.formInline
-                    }).then(function (res) {
-                            console.log(res.data)
-                            _this.tableData = res.data
-                        }
-                    )
-                }
             }
         })
     </script>

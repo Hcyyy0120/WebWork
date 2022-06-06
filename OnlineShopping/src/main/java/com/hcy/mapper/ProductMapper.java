@@ -79,7 +79,7 @@ public interface ProductMapper extends BaseMapper<Product> {
     void updateProductById(ProductVo productVo);
     
     /**
-     * 修改商品的库存
+     * 修改商品的库存和状态
      * @param id
      */
     @Update("update t_product set num = #{num} ,status = 2 where id = #{id}")

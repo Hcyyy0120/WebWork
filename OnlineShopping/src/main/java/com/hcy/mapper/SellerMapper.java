@@ -17,6 +17,8 @@ public interface SellerMapper extends BaseMapper<Seller> {
     Seller selectBySellerName(@Param("seller_name") String sellerName);
     
     int insertSelective(Seller seller);
+    
+    Integer selectSpecialProduct(String sellerName);
 }
 
 

@@ -40,4 +40,6 @@
             <if test="isDelete != null">#{isDelete,jdbcType=INTEGER},</if>
         </trim>
     </insert>
+    
+
 </mapper>

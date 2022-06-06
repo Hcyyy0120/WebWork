@@ -32,7 +32,7 @@ public class MvcConfig implements WebMvcConfigurer {
                         "/css/**", "/js/**", "/img/**", "/plugins/**");//用户或商家在没登录时可以访问的页面
     
         registry.addInterceptor(userPermissionHandlerInterceptor())
-                .addPathPatterns("/pages/manage.html","/product/seller",
+                .addPathPatterns("/pages/manage.html","/pages/manage_order.html","/product/seller",
                         "/product/delete","/product/insert", "/product/update");//对于用户来说需要拦截的页面
     }
     

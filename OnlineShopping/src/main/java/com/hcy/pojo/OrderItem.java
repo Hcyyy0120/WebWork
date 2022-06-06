@@ -46,7 +46,7 @@ public class OrderItem implements Serializable {
     private Integer num;
 
     /**
-     * 0：商家未确认     1：商家已确认
+     * 0：商家未确认    1：等待商家确认    2：商家已确认
      */
     private Integer state;
 

@@ -129,7 +129,21 @@
                                             <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
                                             <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                                         </svg>
-                                        商家管理
+                                        商家商品管理
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="http://localhost:8080/pages/manage.html">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                             stroke-linecap="round" stroke-linejoin="round"
+                                             class="feather feather-users">
+                                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                            <circle cx="9" cy="7" r="4"></circle>
+                                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                        </svg>
+                                        商家订单管理
                                     </a>
                                 </li>
                             </ul>
@@ -291,13 +305,12 @@
                     }).then(function (res) {
                         _this.oid = res.data.oid;
                         _this.updateState();
-                        _this.updateProductNumAndState();
+                        _this.updateProductNumAndState();//？？
                         _this.addSuccess();
                     })
                 },
                 updateState() {
                     var _this = this;
-                    //修改商品库存
                     //修改购物车商品状态cart_item_state为1
                     for (let i = 0; i < this.cartTableData.length; i++) {
                         this.arr[i] = this.cartTableData[i].cid;
@@ -309,6 +322,7 @@
                     })
                 },
                 updateProductNumAndState() {
+                    //修改商品库存和状态
                     var _this = this;
                     for (let i = 0; i < this.cartTableData.length; i++) {
                         this.updateProductData.id[i] = this.cartTableData[i].pid;
