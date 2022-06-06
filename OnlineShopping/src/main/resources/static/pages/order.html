@@ -176,6 +176,13 @@
                                                  align="center"
                                                  header-align="center">
                                     <el-table-column
+                                            prop="oid"
+                                            label="订单号"
+                                            width="120"
+                                            align="center"
+                                            header-align="center">
+                                    </el-table-column>
+                                    <el-table-column
                                             prop="recvName"
                                             label="姓名"
                                             width="120"
@@ -211,6 +218,13 @@
                                             align="center"
                                             header-align="center">
                                     </el-table-column>
+<!--                                    <el-table-column
+                                            prop="status"
+                                            label="状态"
+                                            width="120"
+                                            align="center"
+                                            header-align="center">
+                                    </el-table-column>-->
                                 </el-table-column>
                             </el-table>
                             <br/>
@@ -249,12 +263,12 @@
                         num: '',
                         price: '',
                         totalPrice:'',
-                        state:''
+                        status:''
                     }],
                     client: {
                         clientName: ''
                     },
-                    loadingState:false
+                    loadingState:'',
                 }
             },
             
@@ -264,8 +278,15 @@
             },
             
             methods: {
+                isLoading() {
+                    console.log("this.orderTableData[0].status" + this.orderTableData[0].status);
+                    if(this.orderTableData[0].status == '1') {//1为等待商家发货，(发货后修改为2，此时按钮可点)
+                        this.loadingState = true;
+                    } else {
+                        this.loadingState = false;
+                    }
+                },
                 pay() {
-                    //this.loadingState = true;
                     var _this = this;
                     const url = '../img/pay.jpg';
                     this.$alert('<img src = ' + url + '/>', '我是学生，打钱', {
@@ -288,6 +309,7 @@
                     }).then(function (res) {
                         _this.orderTableData = res.data;
                         console.log("22222222" + _this.orderTableData[0].oid);
+                        _this.isLoading();//必须在数据渲染完成后执行
                     })
                 },
                 clearCookie() {

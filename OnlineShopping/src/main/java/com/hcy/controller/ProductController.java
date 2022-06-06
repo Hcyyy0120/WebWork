@@ -75,7 +75,7 @@ public class ProductController {
         productService.updateProductById(productVo);
     }
     
-    @PostMapping("/updateNumAndState")
+    @PostMapping("/updateNumAndState")//实际应该修改的是t_order_item中的state
     public void updateProductNumAndState(@RequestBody ProductDto productDto) {
         Integer[] id = productDto.getId();
         Integer[] num = productDto.getNum();

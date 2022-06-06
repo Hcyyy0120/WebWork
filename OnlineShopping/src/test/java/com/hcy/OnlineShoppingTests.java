@@ -8,6 +8,7 @@ import com.hcy.pojo.vo.CartVo;
 import com.hcy.pojo.vo.OrderVo;
 import com.hcy.pojo.vo.ProductVo;
 import com.hcy.service.CartService;
+import com.hcy.service.OrderItemService;
 import com.hcy.service.OrderService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,12 @@ class OnlineShoppingTests {
     
     @Autowired
     OrderService orderService;
+    
+    @Autowired
+    OrderItemMapper orderItemMapper;
+    
+    @Autowired
+    OrderItemService orderItemService;
     
     @Test
     void contextLoads() {
@@ -121,5 +128,11 @@ class OnlineShoppingTests {
     @Test
     public void testUpdateOrderStatus() {
         orderMapper.updateOrderState(1);
+    }
+    
+    @Test
+    public void test1() {
+        Integer[] pid = {47};
+        orderItemService.updateOrderItemStateByOidAndPid(8,pid);
     }
 }

@@ -284,6 +284,10 @@
                     updateProductData:{
                         id:[],
                         num:[]
+                    },
+                    updateCartItemData:{
+                        oid:-1,
+                        pid:[]
                     }
                 }
             },
@@ -306,7 +310,22 @@
                         _this.oid = res.data.oid;
                         _this.updateState();
                         _this.updateProductNumAndState();//？？
+                        _this.updateCartItemState();
                         _this.addSuccess();
+                    })
+                },
+                updateCartItemState() {
+                    //修改订单商品状态
+                    var _this = this;
+                    for (let i = 0; i < this.cartTableData.length; i++) {
+                        this.updateCartItemData.pid[i] = this.cartTableData[i].pid;
+                    }
+                    this.updateCartItemData.oid = this.oid;
+                    
+                    axios({
+                        method: "post",
+                        url: "http://localhost:8080/orderitem/update",
+                        data: _this.updateCartItemData
                     })
                 },
                 updateState() {
@@ -332,9 +351,6 @@
                         method: "post",
                         url: "http://localhost:8080/product/updateNumAndState",
                         data: _this.updateProductData
-                    }).then(function () {
-                        console.log(_this.updateProductData.id);
-                        console.log(_this.updateProductData.num);
                     })
                 },
                 getCartCount() {

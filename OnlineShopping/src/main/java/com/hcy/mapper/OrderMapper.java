@@ -30,7 +30,7 @@ public interface OrderMapper extends BaseMapper<Order> {
     List<OrderVo> selectOrderVoByUid(Integer uid);
     
     /**
-     * 修改订单状态（使其不显示）
+     * 修改订单状态为等待发货（1）
      * @param oid
      */
     void updateOrderState(Integer oid);

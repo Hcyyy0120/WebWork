@@ -17,6 +17,6 @@ public class OrderVo {
     private Integer num;//订单中每种商品的数量
     private Long price;//订单中单个商品的总价格
     private Long totalPrice;//订单总价格
-    private Integer state;//状态 0  1  2.....
+    private Integer status;//状态 0  1  2.....
     
 }

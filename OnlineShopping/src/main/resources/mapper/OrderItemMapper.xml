@@ -23,4 +23,8 @@
     <insert id="insertOrderItem">
         insert into t_order_item (oid,pid,title,price,num) values (#{oid},#{pid},#{title},#{price},#{num})
     </insert>
+    
+    <update id="updateOrderItemStateByOidAndPid">
+        update t_order_item set state = 2 where oid = #{oid} and pid = #{pid}
+    </update>
 </mapper>

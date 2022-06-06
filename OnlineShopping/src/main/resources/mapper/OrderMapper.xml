@@ -48,6 +48,7 @@
                 t_product.seller_name
         </select>-->
     
+    <!--t_order.status != 2表示等待商家发货，发货后设置为2，即不显示-->
     <select id="selectOrderVoByUid" resultType="com.hcy.pojo.vo.OrderVo">
         SELECT t_order.oid,
                t_order.recv_name,
@@ -55,13 +56,14 @@
                t_order_item.title,
                t_order_item.num,
                t_order_item.price,
-               t_order.total_price
+               t_order.total_price,
+               t_order.status
         FROM t_order_item
                  join t_order on t_order.oid = t_order_item.oid
                  join t_product on t_product.id = t_order_item.pid
         where t_order.uid = #{uid}
-          and t_order.status = 0
-        order by t_product.seller_name
+          and t_order.status != 2
+        order by t_order.oid,t_product.seller_name
     </select>
     
     <update id="updateOrderState">

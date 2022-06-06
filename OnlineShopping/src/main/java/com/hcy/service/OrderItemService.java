@@ -9,5 +9,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 * @createDate 2022-06-06 09:08:20
 */
 public interface OrderItemService extends IService<OrderItem> {
-
+    
+    void updateOrderItemStateByOidAndPid(Integer oid,Integer[] pid);
 }

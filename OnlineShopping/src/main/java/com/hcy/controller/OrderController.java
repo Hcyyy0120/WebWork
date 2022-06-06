@@ -40,7 +40,7 @@ public class OrderController {
     
     @PostMapping("/update/{oid}")
     public void updateOrderState(@PathVariable("oid") Integer oid) {
-        System.out.println("oidoidoidoidoidoid" + oid);
+        //System.out.println("oidoidoidoidoidoid" + oid);
         orderService.updateOrderState(oid);
     }
     

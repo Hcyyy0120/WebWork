@@ -12,7 +12,15 @@ import org.apache.ibatis.annotations.Mapper;
 */
 @Mapper
 public interface OrderItemMapper extends BaseMapper<OrderItem> {
+    
     void insertOrderItem(OrderItem orderItem);
+    
+    /**
+     * 设置t_order_item的state为2
+     * @param oid
+     * @param pid
+     */
+    void updateOrderItemStateByOidAndPid(Integer oid,Integer pid);
 }
 
 
