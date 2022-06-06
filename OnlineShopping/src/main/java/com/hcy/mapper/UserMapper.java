@@ -17,6 +17,8 @@ public interface UserMapper extends BaseMapper<User> {
     
     User selectByUsername(@Param("username") String username);
     
+    User selectByUid(Integer uid);
+    
     int insertSelective(User user);
 }
 

@@ -26,6 +26,10 @@
         username = #{username,jdbcType=VARCHAR}
     </select>
     
+    <select id="selectByUid" resultType="com.hcy.pojo.User">
+        select * from t_user where uid = #{uid}
+    </select>
+    
     <insert id="insertSelective">
         insert into t_user
         <trim prefix="(" suffix=")" suffixOverrides=",">

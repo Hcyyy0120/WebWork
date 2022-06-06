@@ -113,9 +113,7 @@
                                             <circle cx="20" cy="21" r="1"></circle>
                                             <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
                                         </svg>
-                                        <el-badge :value="clickCount" class="item">
-                                            订单
-                                        </el-badge>
+                                        订单
                                     </a>
                                 </li>
                                 <li class="nav-item">
@@ -150,81 +148,57 @@
                             </div>
                         </div>
                         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-                            <h1 class="h2">购物车</h1>
+                            <h1 class="h2">订单页</h1>
                         </div>
                         
-                        
-                        <!--购物车列表-->
+                        <!--订单列表-->
                         <template>
                             <el-table
-                                    ref="multipleTable"
-                                    :data="cartTableData"
-                                    tooltip-effect="dark"
+                                    :data="orderTableData"
                                     style="width: 100%"
-                                    @selection-change="handleSelectionChange">
-                                <el-table-column
-                                        type="selection"
-                                        width="80"
-                                        align="center"
-                                        header-align="center">
-                                </el-table-column>
-                                <el-table-column
-                                        prop="title"
-                                        label="商品"
-                                        width="250"
-                                        align="center"
-                                        header-align="center"
-                                        show-overflow-tooltip="true">
-                                </el-table-column>
-                                <el-table-column
-                                        prop="cartItemPrice"
-                                        label="单价"
-                                        width="200"
-                                        align="center"
-                                        header-align="center">
-                                </el-table-column>
-                                <el-table-column
-                                        prop="cartItemNum"
-                                        label="数量"
-                                        width="200"
-                                        align="center"
-                                        header-align="center">
-                                    <template slot-scope="scope">
-                                        <el-input-number v-model="scope.row.cartItemNum" :min="1"
-                                                         :max="99" size="large"
-                                                         @change="handleChange(scope.row.cid,scope.row.cartItemNum)"></el-input-number>
-                                    </template>
-                                </el-table-column>
-                                <!--prop="cartItemTotalPrice"-->
-                                <el-table-column
-                                        label="总金额"
-                                        width="250"
-                                        align="center"
-                                        header-align="center">
-                                    <template slot-scope="scope">
-                                        <!--<span>{{scope.row.cartItemNum*scope.row.cartItemPrice}}</span>-->
-                                        <span>{{getCartItemTotalPrice(scope.row.cartItemNum, scope.row.cartItemPrice)}}</span>
-                                    </template>
-                                </el-table-column>
-                                <el-table-column
-                                        label="操作"
-                                        width="200"
-                                        align="center"
-                                        header-align="center">
-                                    <template slot-scope="scope">
-                                        <el-button type="text" size="medium" @click="idDelete(scope.row.cid)">删除
-                                        </el-button>
-                                    </template>
+                                    align="center">
+                                <el-table-column label="订单详情"
+                                                 align="center"
+                                                 header-align="center">
+                                    <el-table-column
+                                            prop="recvName"
+                                            label="姓名"
+                                            width="120"
+                                            align="center"
+                                            header-align="center">
+                                    </el-table-column>
+                                    <el-table-column
+                                            prop="sellerName"
+                                            label="商家"
+                                            width="300"
+                                            align="center"
+                                            header-align="center">
+                                    </el-table-column>
+                                    <el-table-column
+                                            prop="title"
+                                            label="商品名"
+                                            width="120"
+                                            align="center"
+                                            header-align="center">
+                                    </el-table-column>
+                                    <el-table-column
+                                            prop="num"
+                                            label="购买数量"
+                                            width="120"
+                                            align="center"
+                                            header-align="center">
+                                    </el-table-column>
+                                    <el-table-column
+                                            prop="price"
+                                            label="总金额"
+                                            width="120"
+                                            align="center"
+                                            header-align="center">
+                                    </el-table-column>
                                 </el-table-column>
                             </el-table>
-                            <div style="margin-top: 20px">
-                                <el-button @click="toggleSelection(cartTableData)">全选
-                                </el-button>
-                                <el-button @click="toggleSelection()">取消选择</el-button>
-                                <span style="margin-left: 750px">已选商品 {{getCartCount()}} 件 - 总价 {{getCartPrice()}} 元</span>
-                            </div>
                             <br/>
-                            <el-button style="margin-left: 1000px" type="primary" :loading="loadingState" @click="gotoPay">去支付</el-button>
+                            <el-button style="margin-left: 920px" type="primary" :loading="true">支付</el-button>
                             <p></p>
                         </template>
                     </main>
@@ -250,118 +224,38 @@
             el: "#app",
             data() {
                 return {
-                    cartTableData: [{
-                        cid: '',
+                    orderTableData: [{
+                        oid:'',
+                        uid:'',
+                        pid:'',
+                        recvName: '',
+                        sellerName: '',
                         title: '',
-                        cartItemPrice: '',
-                        cartItemNum: '',
+                        num: '',
+                        price: '',
+                        totalPrice:'',
+                        state:''
                     }],
-                    cartItemNum: 1,
-                    multipleSelection: [],
-                    copyCartItemNum: 1,
-                    clickCount:0,
-                    loadingState: false,
                     client: {
                         clientName: ''
-                    },
-                    oid:''
+                    }
                 }
             },
             
             mounted() {
-                this.showCartList();
+                this.showOrderList();
                 this.getClientInfo();
-                //this.loadingState = false;等商家确认后执行
             },
             
             methods: {
-                gotoPay() {
-                    this.loadingState = true;
-                    this.clickCount++;
+                showOrderList() {
                     var _this = this;
                     axios({
                         method: "get",
-                        url: "http://localhost:8080/order/create"
+                        url: "http://localhost:8080/order/select"
                     }).then(function (res) {
-                        _this.oid = res.data.oid;
-                        _this.addSuccess();
+                        _this.orderTableData = res.data;
                     })
-                },
-                getCartCount() {
-                    return this.multipleSelection.length;
-                },
-                getCartPrice() {
-                    let totalPrice = 0;
-                    for (let i = 0; i < this.multipleSelection.length; i++) {
-                        totalPrice += this.multipleSelection[i].cartItemNum * this.multipleSelection[i].cartItemPrice;
-                    }
-                    return totalPrice;
-                },
-                addSuccess() {
-                    this.$message({
-                        showClose: true,
-                        message: '订单创建成功！',
-                        type: 'success'
-                    });
-                },
-                idDelete(row) {
-                    this.$confirm('此商品将移出购物车', '提示', {
-                        confirmButtonText: '确定',
-                        cancelButtonText: '取消',
-                        type: 'warning'
-                    }).then(() => {
-                        this.deleteCartItemById(row);
-                        this.$message({
-                            type: 'success',
-                            message: '删除成功!'
-                        });
-                        window.location.reload();
-                    }).catch(() => {
-                        this.$message({
-                            type: 'info',
-                            message: '已取消删除'
-                        });
-                    });
-                },
-                deleteCartItemById(cid) {
-                    var _this = this;
-                    axios({
-                        method: "post",
-                        url: "http://localhost:8080/cart/delete/" + cid,
-                        data: cid
-                    })
-                },
-                handleChange(cid, num) {
-                    var _this = this;
-                    //this.copyCartItemNum = num;
-                    axios({
-                        method: "post",
-                        url: "http://localhost:8080/cart/update/" + cid + "/" + num
-                    })
-                },
-                getCartItemTotalPrice(num, price) {//获取某个商品的总价
-                    return num * price;
-                },
-                showCartList() {
-                    var _this = this;
-                    axios({
-                        method: "get",
-                        url: "http://localhost:8080/cart/select"
-                    }).then(function (res) {
-                        _this.cartTableData = res.data;
-                    })
-                },
-                toggleSelection(rows) {
-                    if (rows) {
-                        rows.forEach(row => {
-                            this.$refs.multipleTable.toggleRowSelection(row);
-                        });
-                    } else {
-                        this.$refs.multipleTable.clearSelection();
-                    }
-                },
-                handleSelectionChange(val) {
-                    this.multipleSelection = val;
                 },
                 clearCookie() {
                     var keys = document.cookie.match(/[^ =;]+(?=\=)/g);

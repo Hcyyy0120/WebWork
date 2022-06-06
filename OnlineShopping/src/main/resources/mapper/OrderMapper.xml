@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hcy.mapper.OrderMapper">
+
+    <resultMap id="BaseResultMap" type="com.hcy.pojo.Order">
+            <id property="oid" column="oid" jdbcType="INTEGER"/>
+            <result property="uid" column="uid" jdbcType="INTEGER"/>
+            <result property="recvName" column="recv_name" jdbcType="VARCHAR"/>
+            <result property="totalPrice" column="total_price" jdbcType="BIGINT"/>
+            <result property="status" column="status" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        oid,uid,recv_name,
+        total_price,status
+    </sql>
+    
+    <!--keyProperty=“sid” 表示将自增长后的 Id 赋值给实体类中的 sid 字段。-->
+    <insert id="insertOrder" useGeneratedKeys="true" keyProperty="oid">
+        insert into t_order (uid,recv_name,total_price) values (#{uid},#{recvName},#{totalPrice})
+    </insert>
+    
+    <select id="selectOrderVoByOid" resultType="com.hcy.pojo.vo.OrderVo">
+        SELECT
+            t_order.recv_name,
+            t_product.seller_name,
+            t_order_item.title,
+            t_order_item.num,
+            t_order_item.price,
+            t_order.total_price
+        FROM
+            t_order,
+            t_order_item,
+            t_product
+        WHERE
+            t_order.oid = #{oid}
+          AND
+            t_product.id = t_order_item.pid
+          AND
+            t_order.oid = t_order_item.oid
+        ORDER BY
+            t_product.seller_name
+    </select>
+</mapper>

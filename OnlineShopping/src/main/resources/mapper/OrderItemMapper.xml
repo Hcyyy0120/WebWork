@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hcy.mapper.OrderItemMapper">
+
+    <resultMap id="BaseResultMap" type="com.hcy.pojo.OrderItem">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="oid" column="oid" jdbcType="INTEGER"/>
+            <result property="pid" column="pid" jdbcType="INTEGER"/>
+            <result property="title" column="title" jdbcType="VARCHAR"/>
+            <result property="price" column="price" jdbcType="BIGINT"/>
+            <result property="num" column="num" jdbcType="INTEGER"/>
+            <result property="state" column="state" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,oid,pid,
+        title,price,num,
+        state
+    </sql>
+    
+    <insert id="insertOrderItem">
+        insert into t_order_item (oid,pid,title,price,num) values (#{oid},#{pid},#{title},#{price},#{num})
+    </insert>
+</mapper>

@@ -47,8 +47,8 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements Ca
             Integer num = result.getCartItemNum() + 1;
             cartMapper.updateCartItemNumByCid(result.getCid(),num);
         }
-        Integer num = product.getNum()-1;
-        productMapper.updateProductNumById(pid,num);
+        //Integer num = product.getNum()-1;
+        //productMapper.updateProductNumById(pid,num);
     }
     
     /**

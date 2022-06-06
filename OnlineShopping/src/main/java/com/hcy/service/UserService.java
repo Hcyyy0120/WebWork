@@ -17,6 +17,7 @@ import java.util.Map;
 public interface UserService extends IService<User> {
     User selectByUsername(String username);
     
+    
     int insertSelective(User user);
     
     void rememberUser(HttpServletResponse response, User user);

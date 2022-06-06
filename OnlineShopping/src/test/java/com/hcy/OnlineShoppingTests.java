@@ -2,17 +2,13 @@ package com.hcy;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.hcy.mapper.CartMapper;
-import com.hcy.mapper.ProductMapper;
-import com.hcy.mapper.SellerMapper;
-import com.hcy.mapper.UserMapper;
-import com.hcy.pojo.Cart;
-import com.hcy.pojo.Product;
-import com.hcy.pojo.Seller;
-import com.hcy.pojo.User;
+import com.hcy.mapper.*;
+import com.hcy.pojo.*;
 import com.hcy.pojo.vo.CartVo;
+import com.hcy.pojo.vo.OrderVo;
 import com.hcy.pojo.vo.ProductVo;
 import com.hcy.service.CartService;
+import com.hcy.service.OrderService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -35,6 +31,12 @@ class OnlineShoppingTests {
     
     @Autowired
     CartService cartService;
+    
+    @Autowired
+    OrderMapper orderMapper;
+    
+    @Autowired
+    OrderService orderService;
     
     @Test
     void contextLoads() {
@@ -90,5 +92,23 @@ class OnlineShoppingTests {
     @Test
     public void testUpdateProductNumById() {
         productMapper.updateProductNumById(1,8888);
+    }
+    
+    @Test
+    public void testSelectByUid() {
+        User user = userMapper.selectByUid(1);
+        System.out.println(user);
+    }
+    
+    @Test
+    public void testCreateOrder() {
+        Order order = orderService.createOrder(1);
+        System.out.println(order);
+    }
+    
+    @Test
+    public void testSelectOrderByOid() {
+        List<OrderVo> orderVos = orderMapper.selectOrderVoByOid(1);
+        System.out.println(orderVos);
     }
 }
