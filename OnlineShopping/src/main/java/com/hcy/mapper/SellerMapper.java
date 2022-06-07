@@ -3,8 +3,11 @@ package com.hcy.mapper;
 import com.hcy.pojo.Seller;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.hcy.pojo.User;
+import com.hcy.pojo.vo.RecvOrder;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
 * @author 16691
@@ -18,7 +21,13 @@ public interface SellerMapper extends BaseMapper<Seller> {
     
     int insertSelective(Seller seller);
     
-    Integer selectSpecialProduct(String sellerName);
+    //Integer selectSpecialProduct(String sellerName);
+    
+    List<RecvOrder> selectRevOrder(String sellerName);
+    
+    void updateOrderState(Integer oid,Integer uid);
+    
+    void updateOrderItemState(Integer oid);
 }
 
 

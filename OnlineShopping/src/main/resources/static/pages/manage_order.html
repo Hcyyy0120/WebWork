@@ -131,7 +131,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="http://localhost:8080/pages/manage.html">
+                                    <a class="nav-link" href="http://localhost:8080/pages/manage_order.html">
                                         <!--<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                              viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                              stroke-linecap="round" stroke-linejoin="round"
@@ -169,6 +169,47 @@
                         
                         <!--商家订单管理-->
                         <!--t_order的state也要修改为2-->
+                        <template>
+                            <el-table
+                                    :data="recvOrderTableData"
+                                    border
+                                    style="width: 100%"
+                                    align="center"
+                                    header-align="center">
+                                <el-table-column
+                                        prop="oid"
+                                        label="订单号"
+                                        width="150"
+                                        align="center"
+                                        header-align="center">
+                                </el-table-column>
+                                <el-table-column
+                                        prop="recvName"
+                                        label="收货人"
+                                        width="120"
+                                        align="center"
+                                        header-align="center">
+                                </el-table-column>
+                                <el-table-column
+                                        prop="title"
+                                        label="商品"
+                                        width="120"
+                                        align="center"
+                                        header-align="center">
+                                </el-table-column>
+                                <el-table-column
+                                        label="操作"
+                                        width="100"
+                                        align="center"
+                                        header-align="center">
+                                    <template slot-scope="scope">
+                                        <el-button @click="sendProducts()" type="text" size="medium">发货</el-button>
+                                        <!--<el-button type="text" size="small">编辑</el-button>-->
+                                    </template>
+                                </el-table-column>
+                            </el-table>
+                        </template>
+                        
                     </main>
                 </div>
             </div>
@@ -192,6 +233,12 @@
             el: "#app",
             data() {
                 return {
+                    recvOrderTableData: [{
+                        uid:'',
+                        oid: '',
+                        recvName: '',
+                        title: '',
+                    }],
                     client: {
                         clientName: ''
                     }
@@ -199,23 +246,50 @@
             },
             
             mounted() {
-                this.showCartList();
+                this.showRecvOrderList();
                 this.getClientInfo();
-                //this.loadingState = false;等商家确认后执行
+                
             },
             
             methods: {
+                sendProducts() {
+                    this.$message({
+                        type: 'success',
+                        message: '发货成功!'
+                    });
+                    this.updateOrderState();
+                    this.updateOrderItemState();
+                },
+                updateOrderState() {
+                    var _this = this;
+                    axios({
+                        method: "get",
+                        url: "http://localhost:8080/seller/orderState/" + _this.recvOrderTableData[0].oid + "/" + _this.recvOrderTableData[0].uid
+                    })
+                },
+                updateOrderItemState() {
+                    var _this = this;
+                    axios({
+                        method: "get",
+                        url: "http://localhost:8080/seller/orderItemState/" + _this.recvOrderTableData[0].oid
+                    })
+                },
+                showRecvOrderList() {
+                    var _this = this;
+                    axios({
+                        method: "get",
+                        url: "http://localhost:8080/seller/selectRecvOrder"
+                    }).then(function (res) {
+                        _this.recvOrderTableData = res.data
+                    })
+                },
                 idDelete(row) {
                     this.$confirm('此商品将移出购物车', '提示', {
                         confirmButtonText: '确定',
                         cancelButtonText: '取消',
                         type: 'warning'
                     }).then(() => {
-                        this.deleteCartItemById(row);
-                        this.$message({
-                            type: 'success',
-                            message: '删除成功!'
-                        });
+                        
                         window.location.reload();
                     }).catch(() => {
                         this.$message({

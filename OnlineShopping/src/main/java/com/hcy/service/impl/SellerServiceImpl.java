@@ -3,6 +3,7 @@ package com.hcy.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hcy.pojo.Seller;
 import com.hcy.pojo.User;
+import com.hcy.pojo.vo.RecvOrder;
 import com.hcy.service.SellerService;
 import com.hcy.mapper.SellerMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,6 +34,21 @@ public class SellerServiceImpl extends ServiceImpl<SellerMapper, Seller> impleme
     @Override
     public int insertSelective(Seller seller) {
         return sellerMapper.insertSelective(seller);
+    }
+    
+    @Override
+    public List<RecvOrder> selectRevOrder(String sellerName) {
+        return sellerMapper.selectRevOrder(sellerName);
+    }
+    
+    @Override
+    public void updateOrderState(Integer oid, Integer uid) {
+        sellerMapper.updateOrderState(oid,uid);
+    }
+    
+    @Override
+    public void updateOrderItemState(Integer oid) {
+        sellerMapper.updateOrderItemState(oid);
     }
 }
 

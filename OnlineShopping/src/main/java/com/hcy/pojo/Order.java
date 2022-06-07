@@ -1,9 +1,7 @@
 package com.hcy.pojo;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
+
 import java.io.Serializable;
 import lombok.Data;
 
@@ -39,7 +37,10 @@ public class Order implements Serializable {
      * 状态：0-未支付，1-已支付，2-已完成
      */
     private Integer status;
-
+    
+    @TableLogic//逻辑删除
+    private Integer isDeleted;
+    
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 }

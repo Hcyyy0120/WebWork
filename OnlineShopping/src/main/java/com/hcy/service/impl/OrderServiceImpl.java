@@ -80,6 +80,11 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         orderMapper.updateOrderState(oid);
     }
     
+    @Override
+    public void deleteOrderByOid(Integer oid) {
+        orderMapper.deleteOrderByOid(oid);
+    }
+    
 }
 
 

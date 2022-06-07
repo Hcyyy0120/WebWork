@@ -16,6 +16,7 @@
         is_delete
     </sql>
     
+    
     <select id="selectBySellerName" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
@@ -23,6 +24,7 @@
         where
         seller_name = #{seller_name,jdbcType=VARCHAR}
     </select>
+    
     
     <insert id="insertSelective">
         insert into t_seller
@@ -41,5 +43,36 @@
         </trim>
     </insert>
     
-
+    <select id="selectRevOrder" resultType="com.hcy.pojo.vo.RecvOrder">
+        SELECT
+            t_order.uid,
+            t_order.oid,
+            t_order.recv_name,
+            t_product.title
+        FROM
+            t_order_item
+                JOIN t_product ON t_product.id = t_order_item.pid
+                JOIN t_order ON t_order_item.oid = t_order.oid
+        WHERE
+            t_product.seller_name = #{sellerName}
+          AND t_order_item.state = 1
+          AND t_order.status = 1
+        ORDER BY
+            t_order.oid
+    </select>
+    
+    <update id="updateOrderState">
+        UPDATE t_order
+        SET STATUS = 2
+        WHERE
+            oid = #{oid}
+          AND uid = #{uid}
+    </update>
+    
+    <update id="updateOrderItemState">
+        UPDATE t_order_item
+        SET state = 2
+        WHERE
+            oid = #{oid}
+    </update>
 </mapper>

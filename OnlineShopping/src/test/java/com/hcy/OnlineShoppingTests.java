@@ -7,6 +7,7 @@ import com.hcy.pojo.*;
 import com.hcy.pojo.vo.CartVo;
 import com.hcy.pojo.vo.OrderVo;
 import com.hcy.pojo.vo.ProductVo;
+import com.hcy.pojo.vo.RecvOrder;
 import com.hcy.service.CartService;
 import com.hcy.service.OrderItemService;
 import com.hcy.service.OrderService;
@@ -134,5 +135,11 @@ class OnlineShoppingTests {
     public void test1() {
         Integer[] pid = {47};
         orderItemService.updateOrderItemStateByOidAndPid(8,pid);
+    }
+    
+    @Test
+    public void test2() {
+        List<RecvOrder> admin = sellerMapper.selectRevOrder("admin");
+        System.out.println(admin);
     }
 }

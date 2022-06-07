@@ -10,6 +10,7 @@
         <result property="recvName" column="recv_name" jdbcType="VARCHAR"/>
         <result property="totalPrice" column="total_price" jdbcType="BIGINT"/>
         <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="isDeleted" column="is_deleted" jdbcType="INTEGER"/>
     </resultMap>
     
     <sql id="Base_Column_List">
@@ -23,7 +24,8 @@
         insert into t_order (uid, recv_name, total_price)
         values (#{uid}, #{recvName}, #{totalPrice})
     </insert>
-
+    
+    
     <!--    <select id="selectOrderVoByOid" resultType="com.hcy.pojo.vo.OrderVo">
             SELECT
                 t_order.recv_name,
@@ -61,13 +63,18 @@
         FROM t_order_item
                  join t_order on t_order.oid = t_order_item.oid
                  join t_product on t_product.id = t_order_item.pid
-        where t_order.uid = #{uid}
-          and t_order.status != 2
+        where t_order.uid = #{uid} and t_order.is_deleted = 0
         order by t_order.oid,t_product.seller_name
     </select>
+    <!--where t_order.uid = #{uid}
+          and t_order.status != 2
+        order by t_order.oid,t_product.seller_name-->
     
     <update id="updateOrderState">
         update t_order set status = 1 where oid = #{oid}
     </update>
-
+    
+    <update id="deleteOrderByOid">
+        update t_order set is_deleted = 1 where oid = #{oid}
+    </update>
 </mapper>

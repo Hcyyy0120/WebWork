@@ -16,11 +16,13 @@ public interface OrderItemMapper extends BaseMapper<OrderItem> {
     void insertOrderItem(OrderItem orderItem);
     
     /**
-     * 设置t_order_item的state为2
+     * 设置t_order_item的state为1
      * @param oid
      * @param pid
      */
     void updateOrderItemStateByOidAndPid(Integer oid,Integer pid);
+    
+    
 }
 
 

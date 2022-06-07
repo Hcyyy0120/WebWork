@@ -25,6 +25,6 @@
     </insert>
     
     <update id="updateOrderItemStateByOidAndPid">
-        update t_order_item set state = 2 where oid = #{oid} and pid = #{pid}
+        update t_order_item set state = 1 where oid = #{oid} and pid = #{pid}
     </update>
 </mapper>

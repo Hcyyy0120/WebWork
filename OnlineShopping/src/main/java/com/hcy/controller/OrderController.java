@@ -44,4 +44,8 @@ public class OrderController {
         orderService.updateOrderState(oid);
     }
     
+    @GetMapping("/delete/{oid}")
+    void deleteOrderByOid(@PathVariable("oid") Integer oid) {
+        orderService.deleteOrderByOid(oid);
+    }
 }

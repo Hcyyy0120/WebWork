@@ -37,7 +37,8 @@
                     opacity: 1
                 }
             }
-            .el-message-box__message img{
+
+            .el-message-box__message img {
                 width: 100% !important;
                 height: 100% !important;
             }
@@ -132,7 +133,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="http://localhost:8080/pages/manage.html">
+                                    <a class="nav-link" href="http://localhost:8080/pages/manage_order.html">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                              viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                              stroke-linecap="round" stroke-linejoin="round"
@@ -218,17 +219,19 @@
                                             align="center"
                                             header-align="center">
                                     </el-table-column>
-<!--                                    <el-table-column
-                                            prop="status"
-                                            label="状态"
-                                            width="120"
-                                            align="center"
-                                            header-align="center">
-                                    </el-table-column>-->
+                                    <!--                                    <el-table-column
+                                                                                prop="status"
+                                                                                label="状态"
+                                                                                width="120"
+                                                                                align="center"
+                                                                                header-align="center">
+                                                                        </el-table-column>-->
                                 </el-table-column>
                             </el-table>
                             <br/>
-                            <el-button style="margin-left: 920px" type="primary" :loading="loadingState" @click="pay">支付</el-button>
+                            <el-button style="margin-left: 920px" type="primary" :loading="loadingState" @click="pay">
+                                {{btnState}}
+                            </el-button>
                             <p></p>
                         </template>
                     </main>
@@ -254,21 +257,22 @@
             data() {
                 return {
                     orderTableData: [{
-                        oid:'',
-                        uid:'',
-                        pid:'',
+                        oid: '',
+                        uid: '',
+                        pid: '',
                         recvName: '',
                         sellerName: '',
                         title: '',
                         num: '',
                         price: '',
-                        totalPrice:'',
-                        status:''
+                        totalPrice: '',
+                        status: ''
                     }],
                     client: {
                         clientName: ''
                     },
-                    loadingState:'',
+                    loadingState: false,
+                    btnState: '支付',
                 }
             },
             
@@ -280,26 +284,47 @@
             methods: {
                 isLoading() {
                     console.log("this.orderTableData[0].status" + this.orderTableData[0].status);
-                    if(this.orderTableData[0].status == '1') {//1为等待商家发货，(发货后修改为2，此时按钮可点)
+                    if (this.orderTableData[0].status == '1') {//1为等待商家发货，(发货后修改为2，此时按钮可点)
                         this.loadingState = true;
-                    } else {
+                    } else if (this.orderTableData[0].status == '0') {
                         this.loadingState = false;
+                    } else {
+                        this.loadingState = true;
+                        this.btnState = '已收到，该订单将在10s后删除';//////////////////////////////////////////////////////////////
+                        
+                        //window.location.reload();
+                        this.sleep(5000);
                     }
+                    ////刷新
+                },
+                sleep(time) {
+                    setTimeout(() => {
+                        this.deleteOrder();
+                    }, time);
+                },
+                deleteOrder() {
+                    var _this = this;
+                    axios({
+                        method: "get",
+                        url: "http://localhost:8080/order/delete/" + _this.orderTableData[0].oid
+                    });
+                    //window.location.reload();//刷新
                 },
                 pay() {
                     var _this = this;
                     const url = '../img/pay.jpg';
                     this.$alert('<img src = ' + url + '/>', '我是学生，打钱', {
-                        type:'info',
+                        type: 'info',
                         dangerouslyUseHTMLString: true
                     });
                     axios({
                         method: "post",
                         url: "http://localhost:8080/order/update/" + _this.orderTableData[0].oid,
                         data: _this.orderTableData[0].oid
-                    }).then(function () {
-                        //window.location.reload();
-                    })
+                    });
+                    /*setTimeout(() => {
+                        window.location.reload();
+                    }, );*/
                 },
                 showOrderList() {
                     var _this = this;
@@ -309,6 +334,7 @@
                     }).then(function (res) {
                         _this.orderTableData = res.data;
                         console.log("22222222" + _this.orderTableData[0].oid);
+                        //window.location.reload();
                         _this.isLoading();//必须在数据渲染完成后执行
                     })
                 },

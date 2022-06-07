@@ -2,12 +2,14 @@ package com.hcy.controller;
 
 import com.hcy.pojo.Seller;
 import com.hcy.pojo.User;
+import com.hcy.pojo.vo.RecvOrder;
 import com.hcy.service.SellerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -16,6 +18,23 @@ public class SellerController {
     
     @Autowired
     private SellerService sellerService;
+    
+    @GetMapping("/orderState/{oid}/{uid}")
+    public void updateOrderState(@PathVariable("oid") Integer oid,@PathVariable("uid") Integer uid) {
+        sellerService.updateOrderState(oid, uid);
+    }
+    
+    @GetMapping("/orderItemState/{oid}")
+    public void updateOrderItemState(@PathVariable("oid") Integer oid) {
+        sellerService.updateOrderItemState(oid);
+    }
+    
+    @GetMapping("/selectRecvOrder")
+    public List<RecvOrder> selectRevOrder(HttpSession session) {
+        Seller seller = (Seller)session.getAttribute("seller");
+        String sellerName = seller.getSellerName();
+        return sellerService.selectRevOrder(sellerName);
+    }
     
     /**
      * 商家登录
