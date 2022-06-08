@@ -87,14 +87,16 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     
     @Override
     public boolean selectOrderItemStateCountByOid(Integer oid) {
-        int count1 = orderMapper.selectOrderItemStateCountByOid(oid);
-        int count2 = orderMapper.selectOrderItemCountByOid(oid);
+        Integer count1 = orderMapper.selectOrderItemStateCountByOid(oid);
+        Integer count2 = orderMapper.selectOrderItemCountByOid(oid);
         System.out.println("count1===" + count1);
-        System.out.println("count2===" + count1);
-        System.out.println(count1 == count2);
-        if (count1 == count2) {
+        System.out.println("count2===" + count2);
+        System.out.println(count1.equals(count2));
+        if (count1.equals(count2)) {
+            System.out.println("true");
             return true;
         } else {
+            System.out.println("false");
             return false;
         }
         
