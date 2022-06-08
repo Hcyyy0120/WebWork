@@ -204,7 +204,7 @@
                                         align="center"
                                         header-align="center">
                                     <template slot-scope="scope">
-                                        <el-button @click="sendProducts()" type="text" size="medium">发货</el-button>
+                                        <el-button @click="sendProducts(scope.$index)" type="text" size="medium">发货</el-button>
                                         <!--<el-button type="text" size="small">编辑</el-button>-->
                                     </template>
                                 </el-table-column>
@@ -254,26 +254,26 @@
             },
             
             methods: {
-                sendProducts() {
+                sendProducts(index) {
                     this.$message({
                         type: 'success',
                         message: '发货成功!'
                     });
-                    this.updateOrderState3();
-                    this.updateOrderItemState();
+                    this.updateOrderState3(index);
+                    this.updateOrderItemState(index);
                 },
-                updateOrderState3() {
+                updateOrderState3(index) {
                     var _this = this;
                     axios({
                         method: "get",
-                        url: "http://localhost:8080/seller/orderState3/" + _this.recvOrderTableData[0].oid + "/" + _this.recvOrderTableData[0].uid
+                        url: "http://localhost:8080/seller/orderState3/" + _this.recvOrderTableData[index].oid + "/" + _this.recvOrderTableData[index].uid
                     })
                 },
-                updateOrderItemState() {
+                updateOrderItemState(index) {
                     var _this = this;
                     axios({
                         method: "get",
-                        url: "http://localhost:8080/seller/orderItemState/" + _this.recvOrderTableData[0].oid + "/" + _this.recvOrderTableData[0].pid
+                        url: "http://localhost:8080/seller/orderItemState/" + _this.recvOrderTableData[index].oid + "/" + _this.recvOrderTableData[index].pid
                     })
                 },
                 showRecvOrderList() {
