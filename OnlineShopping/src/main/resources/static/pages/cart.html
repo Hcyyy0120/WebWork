@@ -354,7 +354,11 @@
                     })
                 },
                 getCartCount() {
-                    return this.multipleSelection.length;
+                    let count = 0;
+                    for (let i = 0; i < this.multipleSelection.length; i++) {
+                        count += this.multipleSelection[i].cartItemNum;
+                    }
+                    return count;
                 },
                 getCartPrice() {
                     let totalPrice = 0;
