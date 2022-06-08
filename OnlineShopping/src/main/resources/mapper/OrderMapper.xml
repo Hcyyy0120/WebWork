@@ -63,18 +63,32 @@
         FROM t_order_item
                  join t_order on t_order.oid = t_order_item.oid
                  join t_product on t_product.id = t_order_item.pid
-        where t_order.uid = #{uid} and t_order.is_deleted = 0
-        order by t_order.oid,t_product.seller_name
+        where t_order.uid = #{uid}
+          and t_order.is_deleted = 0
+        order by t_order.oid, t_product.seller_name
     </select>
+    
     <!--where t_order.uid = #{uid}
           and t_order.status != 2
         order by t_order.oid,t_product.seller_name-->
     
     <update id="updateOrderState">
-        update t_order set status = 1 where oid = #{oid}
+        update t_order
+        set status = 1
+        where oid = #{oid}
     </update>
     
     <update id="deleteOrderByOid">
-        update t_order set is_deleted = 1 where oid = #{oid}
+        update t_order
+        set is_deleted = 1
+        where oid = #{oid}
     </update>
+    
+    <select id="selectOrderItemStateCountByOid" resultType="java.lang.Integer">
+        select count(*) from t_order_item where oid = #{oid} and t_order_item.state = 2
+    </select>
+    
+    <select id="selectOrderItemCountByOid" resultType="java.lang.Integer">
+        select count(*) from t_order_item where oid = #{oid}
+    </select>
 </mapper>

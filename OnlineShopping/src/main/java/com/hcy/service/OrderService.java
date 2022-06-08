@@ -19,4 +19,7 @@ public interface OrderService extends IService<Order> {
     void updateOrderState(Integer oid);
     
     void deleteOrderByOid(Integer oid);
+    
+    boolean selectOrderItemStateCountByOid(Integer oid);
+    
 }

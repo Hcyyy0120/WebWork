@@ -85,6 +85,21 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         orderMapper.deleteOrderByOid(oid);
     }
     
+    @Override
+    public boolean selectOrderItemStateCountByOid(Integer oid) {
+        int count1 = orderMapper.selectOrderItemStateCountByOid(oid);
+        int count2 = orderMapper.selectOrderItemCountByOid(oid);
+        System.out.println("count1===" + count1);
+        System.out.println("count2===" + count1);
+        System.out.println(count1 == count2);
+        if (count1 == count2) {
+            return true;
+        } else {
+            return false;
+        }
+        
+    }
+    
 }
 
 

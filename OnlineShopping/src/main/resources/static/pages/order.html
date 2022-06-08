@@ -273,6 +273,7 @@
                     },
                     loadingState: false,
                     btnState: '支付',
+                    message: false,
                 }
             },
             
@@ -289,13 +290,30 @@
                     } else if (this.orderTableData[0].status == '0') {
                         this.loadingState = false;
                     } else {
-                        this.loadingState = true;
-                        this.btnState = '已收到，该订单将在5s后删除';//////////////////////////////////////////////////////////////
+                        this.allOrderItemIsTrue(this.orderTableData[0].oid);
                         
-                        //window.location.reload();
-                        this.sleep(5000);
                     }
                     ////刷新
+                },
+                allOrderItemIsTrue(oid) {
+                    var _this = this;
+                    axios({
+                        method: "get",
+                        url: "http://localhost:8080/order/allIsTrue/" + oid
+                    }).then(function (res) {
+                        alert(res.data.message);
+                        _this.message = res.data.message;
+                        alert(_this.message);
+                        if( _this.message == true) {
+                            _this.loadingState = true;
+                            _this.btnState = '已收到，该订单将在5s后删除';//////////////////////////////////////////////////////////////
+                            //window.location.reload();
+                            _this.sleep(5000);
+                        } else {
+                            _this.loadingState = true;
+                            _this.btnState = '订单还未完成';
+                        }
+                    });
                 },
                 sleep(time) {
                     setTimeout(() => {

@@ -42,13 +42,18 @@ public class SellerServiceImpl extends ServiceImpl<SellerMapper, Seller> impleme
     }
     
     @Override
-    public void updateOrderState(Integer oid, Integer uid) {
-        sellerMapper.updateOrderState(oid,uid);
+    public void updateOrderState3(Integer oid, Integer uid) {
+        sellerMapper.updateOrderState3(oid,uid);
     }
     
     @Override
-    public void updateOrderItemState(Integer oid) {
-        sellerMapper.updateOrderItemState(oid);
+    public void updateOrderState2(Integer oid, Integer uid) {
+        sellerMapper.updateOrderState2(oid,uid);
+    }
+    
+    @Override
+    public void updateOrderItemState(Integer oid,Integer pid) {
+        sellerMapper.updateOrderItemState(oid,pid);
     }
 }
 

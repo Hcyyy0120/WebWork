@@ -19,14 +19,19 @@ public class SellerController {
     @Autowired
     private SellerService sellerService;
     
-    @GetMapping("/orderState/{oid}/{uid}")
-    public void updateOrderState(@PathVariable("oid") Integer oid,@PathVariable("uid") Integer uid) {
-        sellerService.updateOrderState(oid, uid);
+    @GetMapping("/orderState3/{oid}/{uid}")
+    public void updateOrderState3(@PathVariable("oid") Integer oid,@PathVariable("uid") Integer uid) {
+        sellerService.updateOrderState3(oid, uid);
     }
     
-    @GetMapping("/orderItemState/{oid}")
-    public void updateOrderItemState(@PathVariable("oid") Integer oid) {
-        sellerService.updateOrderItemState(oid);
+    @GetMapping("/orderState2/{oid}/{uid}")
+    public void updateOrderState2(@PathVariable("oid") Integer oid,@PathVariable("uid") Integer uid) {
+        sellerService.updateOrderState2(oid, uid);
+    }
+    
+    @GetMapping("/orderItemState/{oid}/{pid}")
+    public void updateOrderItemState(@PathVariable("oid") Integer oid,@PathVariable("pid") Integer pid) {
+        sellerService.updateOrderItemState(oid,pid);
     }
     
     @GetMapping("/selectRecvOrder")

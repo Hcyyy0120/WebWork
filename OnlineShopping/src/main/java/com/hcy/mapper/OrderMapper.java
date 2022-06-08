@@ -37,6 +37,10 @@ public interface OrderMapper extends BaseMapper<Order> {
     
     void deleteOrderByOid(Integer oid);
     
+    int selectOrderItemStateCountByOid(Integer oid);
+    
+    int selectOrderItemCountByOid(Integer oid);
+    
 }
 
 

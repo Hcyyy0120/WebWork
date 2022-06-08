@@ -195,7 +195,8 @@
                                         label="商品"
                                         width="120"
                                         align="center"
-                                        header-align="center">
+                                        header-align="center"
+                                        show-overflow-tooltip=true>
                                 </el-table-column>
                                 <el-table-column
                                         label="操作"
@@ -236,6 +237,7 @@
                     recvOrderTableData: [{
                         uid:'',
                         oid: '',
+                        pid:'',
                         recvName: '',
                         title: '',
                     }],
@@ -257,21 +259,21 @@
                         type: 'success',
                         message: '发货成功!'
                     });
-                    this.updateOrderState();
+                    this.updateOrderState3();
                     this.updateOrderItemState();
                 },
-                updateOrderState() {
+                updateOrderState3() {
                     var _this = this;
                     axios({
                         method: "get",
-                        url: "http://localhost:8080/seller/orderState/" + _this.recvOrderTableData[0].oid + "/" + _this.recvOrderTableData[0].uid
+                        url: "http://localhost:8080/seller/orderState3/" + _this.recvOrderTableData[0].oid + "/" + _this.recvOrderTableData[0].uid
                     })
                 },
                 updateOrderItemState() {
                     var _this = this;
                     axios({
                         method: "get",
-                        url: "http://localhost:8080/seller/orderItemState/" + _this.recvOrderTableData[0].oid
+                        url: "http://localhost:8080/seller/orderItemState/" + _this.recvOrderTableData[0].oid + "/" + _this.recvOrderTableData[0].pid
                     })
                 },
                 showRecvOrderList() {
@@ -282,21 +284,6 @@
                     }).then(function (res) {
                         _this.recvOrderTableData = res.data
                     })
-                },
-                idDelete(row) {
-                    this.$confirm('此商品将移出购物车', '提示', {
-                        confirmButtonText: '确定',
-                        cancelButtonText: '取消',
-                        type: 'warning'
-                    }).then(() => {
-                        
-                        window.location.reload();
-                    }).catch(() => {
-                        this.$message({
-                            type: 'info',
-                            message: '已取消删除'
-                        });
-                    });
                 },
                 clearCookie() {
                     var keys = document.cookie.match(/[^ =;]+(?=\=)/g);

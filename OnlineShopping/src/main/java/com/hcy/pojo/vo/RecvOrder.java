@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class RecvOrder {
     private Integer uid;
     private Integer oid;
+    private Integer pid;
     private String recvName;
     private String title;
 }

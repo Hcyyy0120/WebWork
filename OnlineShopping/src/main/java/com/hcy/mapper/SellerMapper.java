@@ -25,9 +25,11 @@ public interface SellerMapper extends BaseMapper<Seller> {
     
     List<RecvOrder> selectRevOrder(String sellerName);
     
-    void updateOrderState(Integer oid,Integer uid);
+    void updateOrderState3(Integer oid,Integer uid);
     
-    void updateOrderItemState(Integer oid);
+    void updateOrderState2(Integer oid,Integer uid);
+    
+    void updateOrderItemState(Integer oid,Integer pid);
 }
 
 

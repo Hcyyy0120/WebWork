@@ -43,10 +43,12 @@
         </trim>
     </insert>
     
+    <!--AND t_order.status = 1-->
     <select id="selectRevOrder" resultType="com.hcy.pojo.vo.RecvOrder">
         SELECT
             t_order.uid,
             t_order.oid,
+            t_order_item.pid,
             t_order.recv_name,
             t_product.title
         FROM
@@ -56,12 +58,20 @@
         WHERE
             t_product.seller_name = #{sellerName}
           AND t_order_item.state = 1
-          AND t_order.status = 1
+          AND t_order.status != 0
         ORDER BY
             t_order.oid
     </select>
     
-    <update id="updateOrderState">
+    <update id="updateOrderState3">
+        UPDATE t_order
+        SET STATUS = 2
+        WHERE
+            oid = #{oid}
+          AND uid = #{uid}
+    </update>
+    
+    <update id="updateOrderState2">
         UPDATE t_order
         SET STATUS = 2
         WHERE
@@ -73,6 +83,8 @@
         UPDATE t_order_item
         SET state = 2
         WHERE
-            oid = #{oid}
+            oid = #{oid} and pid = #{pid}
     </update>
+    
+
 </mapper>
